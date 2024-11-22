@@ -1,14 +1,15 @@
 import React from 'react'
 import { useState } from "react";
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const Header = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
 
     <div>
-         {/* navbar */}
+      {/* navbar */}
       <nav className="bg-white border-b border-gray-200 shadow-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -18,7 +19,7 @@ const Header = () => {
                 OBITO THE INVISIBLE
               </a>
             </div>
-  
+
             {/* Hamburger Menu Button */}
             <div className="md:hidden">
               <button
@@ -41,35 +42,39 @@ const Header = () => {
                 </svg>
               </button>
             </div>
-  
+
             {/* Navigation Links for Desktop */}
             <div className="hidden md:flex space-x-8">
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
               >
                 Home
-              </a>
-              <a
-                href="/shop"
-                className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
+              </Link>
+
+              <Link
+                to="/categories"
+                className="text-gray-800 hover:text-blue-600 font-bold text-xl transition nav-link"
               >
                 Category
-              </a>
-              <a
-                href="/about"
+              </Link>
+
+              <Link
+                to="/Allproduct"
                 className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
               >
-                About
-              </a>
-              <a
-                href="/contact"
+                AllProduct
+              </Link>
+
+              <Link
+                to="/contact"
                 className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
               >
                 Contact
-              </a>
+              </Link>
             </div>
-  
+
+
             {/* Action Buttons */}
             <div className="hidden md:flex items-center space-x-4">
               {/* Search Icon */}
@@ -92,7 +97,7 @@ const Header = () => {
                   ></path>
                 </svg>
               </button>
-  
+
               {/* Cart */}
               <a
                 href="/cart"
@@ -114,7 +119,7 @@ const Header = () => {
                   ></path>
                 </svg>
               </a>
-  
+
               {/* User Profile */}
               <a
                 href="/profile"
@@ -138,42 +143,47 @@ const Header = () => {
               </a>
             </div>
           </div>
-  
+
+
           {/* Mobile Menu */}
           {isMenuOpen && (
             <div className="md:hidden">
               <div className="space-y-2 py-3">
-                <a
-                  href="/"
+                <Link
+                  to="/"
                   className="block text-gray-800 hover:text-blue-600 font-medium transition"
                 >
                   Home
-                </a>
-                <a
-                  href="/shop"
+                </Link>
+                <Link
+                  to="/shop"
                   className="block text-gray-800 hover:text-blue-600 font-medium transition"
                 >
                   Shop
-                </a>
-                <a
-                  href="/about"
+                </Link>
+                <Link
+                  to="/about"
                   className="block text-gray-800 hover:text-blue-600 font-medium transition"
                 >
                   About
-                </a>
-                <a
-                  href="/contact"
+                </Link>
+                <Link
+                  to="/contact"
                   className="block text-gray-800 hover:text-blue-600 font-medium transition"
                 >
                   Contact
-                </a>
+                </Link>
               </div>
             </div>
+
           )}
-        </div>
+                    </div>
+
       </nav>
- {/*end navbar */}
-    </div>
+      {/* End Navbar */}
+  </div>
+
+
   )
 }
 
