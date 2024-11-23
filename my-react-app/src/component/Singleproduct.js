@@ -1,6 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Singleproduct = () => {
   return (
@@ -8,6 +9,7 @@ const Singleproduct = () => {
     <div className="w-full mx-auto sm:max-w-md lg:max-w-lg xl:max-w-xl  mb-10">
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition">
       {/* Product Image */}
+      <Link to="/product/:product_slug/:product_id" target="_blank">
       <div className="relative">
         <img
           className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-t-lg"
@@ -15,14 +17,15 @@ const Singleproduct = () => {
           alt="Product"
         />
       </div>
-  
+      </Link>
+
       {/* Product Info */}
       <div className="p-4">
         {/* Product Title */}
         <h3 className="text-lg font-semibold text-gray-800 truncate">
           Stylish Headphones
         </h3>
-  
+
         {/* Ratings */}
         <div className="flex items-center mt-2">
           {[...Array(4)].map((_, index) => (
@@ -48,12 +51,12 @@ const Singleproduct = () => {
   
         {/* Price */}
         <p className="text-xl font-bold text-gray-900 mt-3">$49.99</p>
-  
         {/* Add to Cart Button */}
         <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
           Add to Cart
         </button>
       </div>
+      
     </div>
   </div>
   </>

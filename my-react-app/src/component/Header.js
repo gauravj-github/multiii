@@ -67,10 +67,10 @@ const Header = () => {
               </Link>
 
               <Link
-                to="/contact"
+                to="/checkout"
                 className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
               >
-                Contact
+                 My Cart (4)
               </Link>
             </div>
 

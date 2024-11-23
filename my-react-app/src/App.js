@@ -8,6 +8,8 @@ import CategoryProducts from "./component/CategoryProducts";
 import Allproducts from "./component/Allproducts";
 import { Switch, Route } from "react-router-dom";
 import ProductDetail from "./component/ProductDetail";
+import Checkout from "./component/Checkout";
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/categories" component={Category} />
         <Route path="/category/:category_slug/:category_id" component={CategoryProducts} />
         <Route path="/product/:product_slug/:product_id" component={ProductDetail} />
+        <Route path="/checkout" component={Checkout} />
 
         </Switch>
       <Footer />

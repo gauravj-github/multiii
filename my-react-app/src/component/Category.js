@@ -16,20 +16,22 @@ const Category = () => {
       <div className="w-full mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition">
         {/* Product Image */}
         <div className="relative">
+        <Link to="/category/:category_slug/:category_id"> 
+
           <img
             className="w-full h-64 object-cover rounded-t-lg"
             src="https://via.placeholder.com/300"
             alt="Product"
           />
+                      </Link>
+
         </div>
 
         {/* Product Info */}
         <div className="p-4">
           {/* Product Title */}
           <h3 className="text-lg font-semibold text-gray-800 truncate">
-            <Link to="/category/:category_slug/:category_id"> 
             product categories
-            </Link>
           </h3>
 
           {/* Ratings */}
