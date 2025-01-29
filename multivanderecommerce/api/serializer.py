@@ -26,17 +26,22 @@ class ProductSerializer(serializers.ModelSerializer):
 
      class Meta:
           model = Product
-          fields =['id','user','category','title','detail','price','product_rating']
+          fields =['id','user','category','title','slug','tag_list','image','detail','price','product_rating','demo_url']
      def __init__(self,*args,**kwargs):
           super(ProductSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
 
+class ProductImageSerializer(serializers.ModelSerializer):
+     class Meta:
+          model = ProductImage
+          fields =['id','Product','image']
 
 class ProductDetailSerializer(serializers.ModelSerializer):
      product_rating = serializers.StringRelatedField(many = True , read_only = True)
+     product_imgs = ProductImageSerializer(many=True,read_only=True)
      class Meta:
           model = Product
-          fields =['id','user','category','title','detail','price','product_rating']
+          fields =['id','user','category','title','slug','tag_list','detail','price','image','product_rating','product_imgs']
      def __init__(self,*args,**kwargs):
           super(ProductDetailSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
@@ -45,7 +50,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
      class Meta:
           model = Customer
-          fields =['id','user','address','mobile']
+          fields =['id','user','mobile']
      def __init__(self,*args,**kwargs):
           super(CustomerSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
@@ -64,16 +69,25 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
      class Meta:
           model = Order
-          fields =['id','customer','order_time']
-     def __init__(self,*args,**kwargs):
-          super(OrderSerializer,self).__init__(*args, **kwargs)
-          self.Meta.depth =1
+          fields =['id','customer','order_time','order_status']
+     # def __init__(self,*args,**kwargs):
+     #      super(OrderSerializer,self).__init__(*args, **kwargs)
+     #      self.Meta.depth =1
+     
+class OrderItemSerializer(serializers.ModelSerializer):
+     class Meta:
+          model = OrderItem
+          fields =['id','order','product','qty','price']
+     # def __init__(self,*args,**kwargs):
+     #      super(OrderSerializer,self).__init__(*args, **kwargs)
+     #      self.Meta.depth =1
+          
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
      class Meta:
           model = OrderItem
-          fields =['id','order','Product']
+          fields =['id','order','product','qty','price']
      def __init__(self,*args,**kwargs):
           super(OrderDetailSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
@@ -113,3 +127,9 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
      def __init__(self,*args,**kwargs):
           super(CategoryDetailSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
+
+
+# class Cusdtomer_loginserializer(serializers.ModelSerializer):
+#      class Meta:
+#           model=User
+#           fields = ['id','username','']

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'multivanderecommerce.urls'
@@ -129,16 +132,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSIONS_CLASSES': [
-        'rest_framework.permission.IsAuthenticated',
-        # 'rest_framework.authentication.SessionAuthentication',
-    ],
+    # 'DEFAULT_PERMISSIONS_CLASSES': [
+    #     'rest_framework.permission.IsAuthenticated',
+    #     # 'rest_framework.authentication.SessionAuthentication',
+    # ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ) ,
     'DEFAULT_PAGINATION_CLASS': 'api.pagination.CustomPagination',
-    'PAGE_SIZE': 10
-    ,  # Optional, acts as a default fallback
-
+    'PAGE_SIZE': 100000
+    ,
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',  # Default renderer
+        'rest_framework.renderers.BrowsableAPIRenderer',  # Optional, for API documentation view
+    ],
+   
 }
  
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # Add your frontend's origin
+]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+DEBUG = True
+# settings.py
+
+ 
+# Media settings

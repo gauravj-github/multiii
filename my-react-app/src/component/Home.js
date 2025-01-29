@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Singleproduct from "./Singleproduct";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [products , setProducts] =useState([])
 
 // Array of slide content (manually defined, not using .map)
 const slides = [
@@ -21,21 +23,24 @@ const nextSlide = () => {
 const prevSlide = () => {
   setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 };
+
+  const product ={
+    title :"rrda",
+    price:"245"
+  }
+
   return (
     <>
       {/* latest product */}
       <div className="flex  justify-between text-center p-4  mr-20 ml-20  ">
         <h3 className="font-bold text-2xl">Latest Product</h3>
-        <a href="#" className="font-bold text-2xl bg-black hover:bg-blue-600 text-white p-3 rounded-full ">View All Product<span>      <FontAwesomeIcon icon={faArrowRight} className="text-white text-xl" />
-        </span></a>
+        <Link to="/Allproduct" className="font-bold text-2xl bg-black hover:bg-blue-600 text-white p-3 rounded-full ">View All Product<span>      <FontAwesomeIcon icon={faArrowRight} className="text-white text-xl" />
+        </span></Link>
       </div>
 
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-4 m-4 mr-20 ml-20">
-
-       <Singleproduct></Singleproduct>
-       <Singleproduct></Singleproduct>
-       <Singleproduct></Singleproduct>
-       <Singleproduct></Singleproduct>
+ 
+ <Singleproduct product={product} ></Singleproduct>
 
       </main>
 
