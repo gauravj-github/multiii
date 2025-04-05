@@ -1,20 +1,35 @@
 import {React,useState} from 'react'
 import { Link, } from 'react-router-dom/cjs/react-router-dom.min'
-import { CartContext, } from '../congtext/context'
+import { CartContext,CurrencyContext} from '../congtext/context'
 import { useContext } from 'react'
 
 const Checkout = () => {
+    const _currency = localStorage.getItem("currency")
     const { cartData, setCartData } = useContext(CartContext)
     const [productDet, setProductDetail] = useState([]);
-
+    const {CurrencyData} =useContext(CurrencyContext)
     
-    //   console.log(cartData)
+      console.log(CurrencyData ,",chj bcm")
     if (cartData == null || cartData.length == 0) {
         var cartItems = 0
     }
     else {
         var cartItems = cartData.length
     }
+
+  var sum=0
+  if (cartItems>0){
+    cartData.map((item)=>{
+
+        if (CurrencyData =="inr" ) {
+         sum+=parseFloat(item.produc.price)
+        }
+        else if(CurrencyData =="usd"){
+            sum+=parseFloat(item.produc.usd_price)
+
+        }
+  })
+  }
     const removetoCart=(product_id)=>{
         var previouscart = localStorage.getItem("cartData")
         var CartJson = JSON.parse(previouscart)
@@ -55,7 +70,9 @@ const Checkout = () => {
                                     <h2 className="text-lg font-semibold text-center">{cart.produc.title}</h2>
                                 </div>
                                 <div className="flex items-center space-x-4 mb-4 ">
-                                    <p className=" mr-16 font-bold text-xl">₹{cart.produc.price}</p>
+                                    {_currency !="usd" &&<p className=" mr-16 font-bold text-xl">₹{cart.produc.price}</p> }
+                                    { _currency =="usd" &&  <p className=" mr-16 font-bold text-xl">${cart.produc.usd_price}</p>
+ }
                                     <div className="flex items-center space-x-2 mt-2">
                                         <button className="bg-gray-300 px-2 py-1 rounded hover:bg-gray-400">-</button>
                                         <span>1</span>
@@ -67,7 +84,10 @@ const Checkout = () => {
                         ))}
 
                         <div className="flex justify-between items-center mt-4">
-                            <p className="font-semibold">Total: ₹1000</p>
+                        {CurrencyData =="inr" && <p className="font-bold text-2xl">Total Ammount : ₹{sum}</p>}
+
+                            {CurrencyData =="usd" && <p className="font-bold text-2xl">Total Ammount : ${sum}</p>}
+                            
                             <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500">Checkout</button>
                         </div>
                     </div>

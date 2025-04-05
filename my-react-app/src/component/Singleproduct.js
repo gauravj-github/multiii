@@ -4,8 +4,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Singleproduct = ({product}) => {
-  console.log({product})
-
+  const _currency =localStorage.getItem("currency")
   return (
     <>
     <div className="w-72 rounded-full mx-auto sm:max-w-md lg:max-w-lg xl:max-w-xl  mb-10 ">
@@ -52,8 +51,14 @@ const Singleproduct = ({product}) => {
         </div>
   
         {/* Price */}
-        <p className="text-xl font-bold text-gray-900 mt-3">₹{product.price}</p>
-        {/* Add to Cart Button */}
+        {
+            _currency != "usd" &&    <p className="text-2xl font-bold text-gray-900 mt-4">₹{product.price}           </p>
+
+          }
+           {
+            _currency == "usd" &&   <p className="text-2xl font-bold text-gray-900 mt-4">${product.uds_price}           </p>
+
+          }        {/* Add to Cart Button */}
         <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
           Add to Cart
         </button>

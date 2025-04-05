@@ -18,7 +18,7 @@ const Sellerpanel = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  
+  const checkvendor =localStorage.getItem('vender_login')
 
   return (
     <div>
@@ -46,21 +46,30 @@ const Sellerpanel = () => {
         {open && (
           <div
             id="dropdown-menu"
-            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+            className="absolute right-0 z-10 mt-2 min-w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
           >
             <div className="py-1">
+              {checkvendor &&
+              <> <Link to="/seller/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                Dashboard
+              </Link>
+              <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" to="/seller/logout">
+               Logout
+              </Link>
+              </>
+              }
+
+{! checkvendor &&
+<>
               <Link to="/seller/registration" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Registration
               </Link>
               <Link to="/seller/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Login
               </Link>
-              <Link to="/seller/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                Dashboard
-              </Link>
-              <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-               Logout
-              </Link>
+              </>
+              }
+              
             </div>
           </div>
         )}

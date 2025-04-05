@@ -3,10 +3,11 @@ import React from 'react'
 import Sellerpanel from './SellerPannel';
 import { useContext,useState} from 'react';
 import { UserContext,CartContext } from '../congtext/context'; 
+import { MYaccount } from './MYaccount';
+import Changecurency from './Curresce/Changecurency';
 const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDesboardOpen, setIsDesboiardOpen] = useState(false);
   const userContext = useContext(UserContext); // Correct use of useContext
   const {cartData,setCartData} =useContext(CartContext)
     const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +20,6 @@ const Header = () => {
   else{
     var cartItems = cartData.length
   }
-    
-  
 
   return (
 
@@ -94,6 +93,8 @@ const Header = () => {
               >
                 New Order(4)
               </Link>
+              <Changecurency></Changecurency>
+
             </div>
 
 
@@ -101,37 +102,13 @@ const Header = () => {
             <div className="hidden md:flex items-center ">
              
 
-              {/* Cart */}
-              <a
-                href="/cart"
-                className="p-2 rounded-full text-gray-600 hover:text-blue-600 transition"
-                aria-label="Cart"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  onClick={() => setIsDesboiardOpen(!isDesboardOpen)}
-
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 7h12l-2-7m-5-5V3m0 0V3m0 0"
-                  ></path>
-                </svg>
-               
-              </a>
+        
 
               {/* User Profile */}
               <button
                 className="p-2 rounded-full text-gray-600 hover:text-blue-600 transition"
                 aria-label="User Profile"
               >
-   
 {/* seller panel */}
 
 
@@ -141,25 +118,7 @@ const Header = () => {
 
                   <div className="relative inline-block text-left bg-orange-100">
                     {/* Dropdown Button */}
-                    <button
-                      onClick={toggleDropdown}
-                      className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700  border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none"
-                    >
-                      My Account
-                      <svg
-                        className="-mr-1 ml-2 h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.23 7.21a.75.75 0 011.06-.02L10 10.293l3.71-3.105a.75.75 0 111.02 1.1l-4 3.5a.75.75 0 01-1.02 0l-4-3.5a.75.75 0 01-.02-1.06z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
+                   <MYaccount></MYaccount>
                     {/* Dropdown Menu */}
                     {isOpen && (
                       <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">

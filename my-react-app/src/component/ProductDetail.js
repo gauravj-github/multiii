@@ -1,9 +1,12 @@
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useEffect, useState,useContext } from "react";
 import { FaShoppingCart, FaHeart } from 'react-icons/fa'; 
 import { MdAttachMoney } from 'react-icons/md'; 
 import Singleproduct from "./Singleproduct";
 import { UserContext,CartContext } from "../congtext/context";
+import axios from 'axios';
+
+const user_id = localStorage.getItem('user_id')
 
 
 const ProductDetail = () => {
@@ -14,16 +17,22 @@ const ProductDetail = () => {
     "https://via.placeholder.com/600?text=Image+2",
     "https://via.placeholder.com/600?text=Image+3",
   ];
+  const userContext = useContext(UserContext); // Correct use of useContext
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productDet, setProductDetail] = useState([]);
   const [productTag ,setproductTag] =useState([]) 
    const [relatedProduct ,setrelatedProduct] =useState([])
-  const [addtocart , setaddtocart ] = useState(false)
+  const [addtocart , setaddtocart ] = useState(false)  
+  const [ wishlist,setWishlist] =useState() 
+
+  const _currency =localStorage.getItem("currency")
+  // console.log(_currency,"kvjb")
+  // var Getcurrency = localStorage.getItem("currency")
 
   // const [para ,setpara] =useState(false)
 
-
+  const history =useHistory()
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
@@ -38,6 +47,7 @@ const ProductDetail = () => {
     }
     fetchRelatedProduct()
     chechProductInCart(id)
+    chechProductInWishlist()
 
   }, [id]);
 
@@ -69,8 +79,8 @@ const ProductDetail = () => {
       })
       .then((data) => {
         setrelatedProduct(data.results)
-
         // setproductTag() // Update state with product details
+        console.log(data.results)
       })
       .catch((error) => console.error("Error fetching product details:", error));
   };
@@ -101,14 +111,24 @@ const ProductDetail = () => {
   }
   }
 
+  //       if(userContext.login == null){
+  //     history.push('/user/login')
+  
+  //   }
+  //  else{
+  //   // addtoCart()
+  //    }
+
   const addtoCart=()=>{
+ 
 
     const cartData ={
       "produc":{
         "id":productDet.id,
         "title":productDet.title,
         "image":productDet.image,
-        "price": productDet.price
+        "price": productDet.price,
+        "usd_price":productDet.uds_price
       },
       "user":{
     "id":1
@@ -163,6 +183,53 @@ const ProductDetail = () => {
     }
     // console.log(cartData)
 
+  // console.log(user_id,"ldjvb")
+
+  //Wishlist 
+  function saveInWishlist(){
+    if(userContext == null){
+      history.push('/user/login')
+      alert("pleas login first")
+    }
+   else{
+    const formData =new FormData();
+    formData.append("customer",user_id)
+    formData.append("product",id)
+    axios.post('http://127.0.0.1:8000/api/Wishlist/',formData)
+    .then(function(response){
+      console.log(response.data)
+      window.location.reload()
+
+    })
+    .catch(function(error){
+    console.log(error)
+    })
+   }
+  }
+  //checjing product is already in wishlist
+  function chechProductInWishlist(){
+    const formData =new FormData();
+    formData.append("customer",user_id)
+    formData.append("product",id)
+    const p= id
+       console.log(user_id,p,"kg")
+
+
+    axios.post('http://127.0.0.1:8000/api/check-in-wishlist/',formData)
+    .then(function(response){
+      console.log(response.data.bool)
+      if (response.data.bool==true){
+        setWishlist(true)
+      }
+      else{
+        setWishlist(false)
+      }
+    })
+    .catch(function(error){
+    console.log(error)
+    })
+   }
+  console.log(wishlist,"truuuuu")
   return (
 
 
@@ -224,7 +291,14 @@ const ProductDetail = () => {
    </h1>
 
           {/* Price */}
-          <p className="text-2xl font-bold text-gray-900 mt-4">₹{productDet.price}           </p>
+          {
+            _currency != "usd" &&    <p className="text-2xl font-bold text-gray-900 mt-4">₹{productDet.price}           </p>
+
+          }
+           {
+            _currency == "usd" &&   <p className="text-2xl font-bold text-gray-900 mt-4">${productDet.uds_price}           </p>
+
+          }
 
           {/* Description */}
           <p className="text-gray-700 mt-4">
@@ -234,15 +308,15 @@ const ProductDetail = () => {
           {/* Add to Cart Button */}
           {!addtocart  && <button className="mt-6 flex items-center justify-center gap-2 bg-blue-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-blue-700 transition   hover:border-x-2 hover:border-y-2 hover:border-black" type="submit">
       <FaShoppingCart className="text-xl" /> {/* Cart Icon */}
-      <Link  onClick={addtoCart}>
+      <button  onClick={addtoCart} >
         Add to Cart
-      </Link>
+      </button>
     </button>}
     {addtocart && <button className="mt-6 flex items-center justify-center gap-2 bg-yellow-950 text-white py-3 px-4 rounded-lg text-lg hover:bg-red-700 transition  hover:border-x-2 hover:border-y-2 hover:border-black">
       <FaShoppingCart className="text-xl" /> {/* Cart Icon */}
-      <Link  onClick={removetoCart}>
+      <button  onClick={removetoCart} >
         Remove to Cart
-      </Link>
+      </button>
     </button>}
          
     <button className="mt-6 flex items-center justify-center gap-2 bg-green-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-green-700  transition   hover:border-x-2 hover:border-y-2 hover:border-black">
@@ -253,12 +327,16 @@ const ProductDetail = () => {
       </button>
 
       {/* Wishlist Button */}
-      <button className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition   hover:border-x-2 hover:border-y-2 hover:border-black">
+      {wishlist == false && <button onClick={saveInWishlist} className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition   hover:border-x-2 hover:border-y-2 hover:border-black">
         <FaHeart className="text-xl" />
-        <Link target="_blank" to="#">
           Wishlist
-        </Link>
-      </button>
+      </button> }
+      {wishlist ==true && <button onClick={saveInWishlist} className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition   hover:border-x-2 hover:border-y-2 hover:border-black">
+        <FaHeart className="text-3xl text-red-950" />
+         
+      </button> }
+  
+     
 
       <button className="mt-6 flex items-center justify-center gap-2 bg-black text-white py-3 px-4 rounded-lg text-lg hover:bg-gray-600 hover:border-x-2 hover:border-y-2 hover:border-black transition">
       <FaShoppingCart className="text-xl" /> {/* Cart Icon */}
@@ -283,7 +361,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-z
+
 
 
       </div>

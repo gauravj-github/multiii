@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'; // for navigation after successful login
+import axios from 'axios';
 
 const SellerLogin = () => {
   const [username, setUsername] = useState('');
@@ -11,21 +12,44 @@ const SellerLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Clear previous errors
+    setError('');
+  
     // Simple validation
     if (!username || !password) {
       setError('Please enter both username and password');
       return;
     }
-
-    // Here, you can add logic to verify the login credentials
-    // For simplicity, we'll assume a successful login with dummy values.
-//     if (username === 'admin' && password === 'password') {
-//       history.push('/dashboard'); // Redirect to the dashboard page after login
-//     } else {
-//       setError('Invalid username or password');
-//     }
-  };
-
+  
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+  
+    axios.post("http://127.0.0.1:8000/api/vendor/login/", formData)
+      .then((response) => {
+        if (response.data && response.data.bool === false) {
+          setError(response.data.msg);  // set error message if login fails
+        } else if (response.data && response.data.id) {
+          // Successful loginconsole.log()
+          console.log(response.data)
+          localStorage.setItem('vender_login',true);  // store as string
+          localStorage.setItem('vender_id', response.data.id);
+          localStorage.setItem('vender_username', response.data.user);
+          // Redirect to 'Allproduct' page after successful login
+          history.push('/seller/dashboard');
+        } else {
+          setError('Unexpected response from the server.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error.response ? error.response.data : error.message);
+        setError('An error occurred, please try again later.');
+      });
+  }
+  const checkvendor = localStorage.getItem('vender_login')
+  if (checkvendor){
+    window.location.href='/seller/dashboard'
+  }
   return (
     <div className="w-full max-w-xs mx-auto m-24">
       <h2 className="text-2xl font-bold text-center mb-6">Seller Login</h2>

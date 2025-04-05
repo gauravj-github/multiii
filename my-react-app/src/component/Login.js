@@ -33,8 +33,6 @@ const Login = () => {
         if (response.data.bool == false) {
           setformError(true)
           seterrormsg(response.data.msg)
-          console.log(response.data.msg)
-
         }
         else {
           setformError(false)

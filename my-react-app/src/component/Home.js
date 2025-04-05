@@ -8,7 +8,24 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [products , setProducts] =useState([])
+    const [totalResult , setTotalResults] =useState()
 
+    
+      const baseUrl ="http://127.0.0.1:8000/api/"
+      useEffect(()=>{
+         fetchData(baseUrl+'products/?fetch_limit=3');
+      },[])
+    
+      function fetchData(baseurl){
+      fetch(baseurl)
+        .then((response) => response.json())  // Invoke json() method
+        .then((data) => {setProducts(data.results) 
+          
+        // setTotalResults(data.count)
+} ) // Log the data
+        .catch((error) => console.error('Error:', error));  // Handle any errors
+      }
+console.log(products,"a;slchi")
 // Array of slide content (manually defined, not using .map)
 const slides = [
   "https://via.placeholder.com/300/FF5733",
@@ -24,24 +41,20 @@ const prevSlide = () => {
   setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 };
 
-  const product ={
-    title :"rrda",
-    price:"245"
-  }
+  
 
   return (
     <>
       {/* latest product */}
       <div className="flex  justify-between text-center p-4  mr-20 ml-20  ">
-        <h3 className="font-bold text-2xl">Latest Product</h3>
+        <h3 className="font-bold text-4xl">Latest Product</h3>
         <Link to="/Allproduct" className="font-bold text-2xl bg-black hover:bg-blue-600 text-white p-3 rounded-full ">View All Product<span>      <FontAwesomeIcon icon={faArrowRight} className="text-white text-xl" />
         </span></Link>
       </div>
 
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-4 m-4 mr-20 ml-20">
  
- <Singleproduct product={product} ></Singleproduct>
-
+{products.map((product)=><Singleproduct product={product}></Singleproduct>)}
       </main>
 
       {/* end latest product */}

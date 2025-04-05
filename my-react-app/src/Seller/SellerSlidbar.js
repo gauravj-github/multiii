@@ -12,7 +12,7 @@ const Slidbar = () => {
       <Link className="border  border-black p-4" to="/seller/Reports">Reports</Link>  
       <Link className="border  border-black p-4" to="/seller/Profile">Profile</Link>     
       <Link className="border  border-black p-4" to="/seller/Changepassword">Change Password</Link>        
-      <Link className="border  border-black text-red-800 p-4" to="">Logout</Link>
+      <Link className="border  border-black text-red-800 p-4" to="/seller/logout" >Logout</Link>
     </div>
   )
 }

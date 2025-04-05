@@ -21,7 +21,10 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product,ProductAdmin)
 
 class ordedrAdmin(admin.ModelAdmin):
-  list_display =['id','customer','order_time','order_status']
+  list_display =['id','customer','order_time']
 
 
 admin.site.register(Order,ordedrAdmin)
+admin.site.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+   list_display=["id","Product","customer"]

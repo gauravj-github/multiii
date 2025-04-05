@@ -92,9 +92,13 @@ function updateOrderStatus(orderstatus){
   axios.post(`http://127.0.0.1:8000/api/update-order-status/${orderid}`)
   .then((response)=>{
     console.log(response.data)
+    history.push("/customer/order")
+
   })
   .catch((error)=>{
     console.log(error)
+    // history.push("/order/failuer")
+
   })
 }
 
@@ -145,7 +149,9 @@ function updateOrderStatus(orderstatus){
         }}
       />
     </PayPalScriptProvider>
-       <button className ="bg-green-600 p-2" type="submit" onClick={paymentDone}>submit</button> 
+       <button className ="bg-green-600 p-2" type="submit"
+        // onClick={updateOrderStatus(true)}
+        >submit</button> 
        
        </div>
 

@@ -1,55 +1,84 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import Slidbar from './Slidbar'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+import axios from 'axios'
+const customer_id = localStorage.getItem('user_id')
+
 const Address = () => {
+        const[address,setaddress]=useState([])
+        const[nn,setnn]=useState()
+        useEffect(()=>{
+                addressData()
+              },[])
+              function addressData(){
+            axios.get(`http://127.0.0.1:8000/api/customer/${customer_id}/address-list/`)
+            .then(function(response){
+              // console.log(response.data.results)
+              setaddress(response.data.results)
+              
+            })
+            .catch(function(error){
+            console.log(error)
+            })
+            }
+
+            function Checkbox(id){
+              console.log(isFinite,',shcb')
+              const formData = new FormData();
+              formData.append("address_id",id)
+              console.log(id)
+              axios.post(`http://127.0.0.1:8000/api/mark-defaut-address/${id}/`,formData) 
+              .then(function (response) {
+                  console.log(response.data.address)
+                  window.location.reload()
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            }
   return (
-    <div className="flex justify-between shadow-2xl  m-10 " >
-      <Slidbar></Slidbar>
-      <div className='grid grid-cols-3  gap-10 m-10 '>
-        <div className='w-52'>
-        <div className='border border-black text-base text-center rounded-lg w-auto p-6 '>
-        <input type='checkbox' className=' border border-black '></input> qif uqliuehfkugfkc 8r uoryo3 7ry23p8ry2p9 8y2or y[ d73p98y2o7ry 2 r8y3o r2384y23 ibw97trqi7rtqe7ye 7ryo8 to8r7 tq </div>
-</div>
-
-<div className='w-52'>
-        <div className='border border-black text-base text-center rounded-lg w-auto p-6 '>
-                <button  className='bg-black  text-white text-xl rounded-2xl mb-2'>
-                        mark Default
-                </button>
-                <br></br>
- qif uqliuehfkugfkc 8r uoryo3 7ry23p8ry2p9 8y2or y[ d73p98y2o7ry 2 r8y3o r2384y23 ibw97trqi7rtqe7ye 7ryo8 to8r7 tq </div>
-</div><div className='w-52'>
-        <div className='border border-black text-base text-center rounded-lg w-auto p-6 '>
-        <button  className='bg-black  text-white text-xl rounded-2xl mb-2'>
-                        mark Default
-                </button> <br></br>
-         qif uqliuehfkugfkc 8r uoryo3 7ry23p8ry2p9 8y2or y[ d73p98y2o7ry 2 r8y3o r2384y23 ibw97trqi7rtqe7ye 7ryo8 to8r7 tq </div>
-</div><div className='w-52'>
-        <div className='border border-black text-base text-center rounded-lg w-auto p-6 '>
-        <button  className='bg-black  text-white text-xl rounded-2xl mb-2'>
-                        mark Default
-                </button>
-                <br></br>
-         qif uqliuehfkugfkc 8r uoryo3 7ry23p8ry2p9 8y2or y[ d73p98y2o7ry 2 r8y3o r2384y23 ibw97trqi7rtqe7ye 7ryo8 to8r7 tq </div>
-</div><div className='w-52'>
-        <div className='border border-black text-base text-center rounded-lg w-auto p-6 '>
-        <button  className='bg-black  text-white text-xl rounded-2xl mb-2'>
-                        mark Default
-                </button>
-                <br></br>
-        qif uqliuehfkugfkc 8r uoryo3 7ry23p8ry2p9 8y2or y[ d73p98y2o7ry 2 r8y3o r2384y23 ibw97trqi7rtqe7ye 7ryo8 to8r7 tq </div>
-</div>
-      </div>
-      <div className='h-12 mt-5'>
-        <Link to="/customer/AddAddress" className='bg-green-500 rounded-2xl border-2 border-red-600 p-2 text-xl text-red-600 shadow-lg hover:bg-black hover:text-white hover:shadow-lg'> + Add Address</Link>
-      </div>
-      <div>
-      <div>
         
-      </div>
-     </div>
-
-    </div>
+                <div className="flex justify-between shadow-2xl m-10 p-5 rounded-lg">
+                  
+                  {/* Sidebar */}
+                  <div className="mt-14 w-1/4">
+                    <Slidbar />
+                  </div>
+                  
+                  {/* Address List */}
+                  <div className="w-full flex flex-col items-center">
+                    <div className="w-2/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-20">
+                      
+                      {/* Address Item */}
+                      {address.length > 0 ? (
+                        address.map((item, index) => (
+                          <div key={item.id} className="flex flex-col items-center border border-gray-300 rounded-lg p-4 shadow-md hover:shadow-lg transition duration-200">
+                            {item.default_address == true && <input type='checkbox' checked></input>}
+                            {item.default_address == false && <input type='checkbox' onClick={()=>Checkbox(item.id)}></input>}
+                        
+                                <Link to={`/customer/update-address/${item.id}`} >
+                            <p className="text-lg font-medium text-gray-800">{item.address || 'No address available'}</p>
+                            </Link>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center col-span-3 text-xl text-gray-500">
+                          No addresses available, please add some.
+                        </div>
+                      )}
+                    </div>
+            
+                    {/* Add Address Button */}
+                    <div className="mt-5 flex justify-center w-full">
+                      <Link
+                        to="/customer/AddAddress"
+                        className="bg-green-500 text-white text-lg font-semibold py-2 px-6 rounded-full border-2 border-red-600 shadow-lg transform transition-all hover:bg-black hover:text-white hover:scale-105 duration-300"
+                      >
+                        + Add Address
+                      </Link>
+                    </div>
+                  </div>
+                </div>
   )
 }
 

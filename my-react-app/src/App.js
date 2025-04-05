@@ -37,13 +37,19 @@ import SellerChangepassword from "./Seller/SellerChangepassword"
 import Relatedproduct from "./component/Relatedproduct";
 import TagProducts from "./component/TagProducts";
 
-import { CartContext } from "./congtext/context";
+import { CartContext,CurrencyContext} from "./congtext/context";
+import Updateaddress from "./component/Updateaddress";
+import SellerLogout from "./Seller/SellerLogout";
 const checkCart = localStorage.getItem("cartData")
+const currencycurrency =localStorage.getItem("currency")
 function App() {
   const [cartData ,setCartData] =useState(JSON.parse(checkCart))
+  const [CurrencyData ,setCurrencyData] =useState(currencycurrency)
 
   return (
     <>
+            <CurrencyContext.Provider value={{CurrencyData,setCurrencyData}}>
+
         <CartContext.Provider value={{cartData,setCartData}}>
 
       <Header />
@@ -64,6 +70,7 @@ function App() {
         <Route path="/customer/changepassword" component={Changepassword} />
         <Route path="/customer/Address" component={Address} />
         <Route path="/customer/AddAddress" component={AddAddress} />
+        <Route path="/customer/update-address/:id" component={Updateaddress}/>
         <Route path="/user/registration" component={Registration}></Route>
         <Route path="/user/Login" component={Login}></Route>
         <Route path="/relatedcategories/product" component={Relatedproduct}></Route>
@@ -74,6 +81,7 @@ function App() {
         {/* selleer */}
         <Route path="/seller/registration" component={SellerRegistration}></Route>
         <Route path="/seller/login" component={SellerLogin}></Route>
+        <Route path="/seller/logout" component={SellerLogout}/>
         <Route path="/seller/dashboard" component={SellerDashboard}></Route>
         <Route path="/seller/products" component={SellerProduct}></Route>
         <Route path="/seller/Addproduct" component={AddProduct}></Route>
@@ -91,6 +99,8 @@ function App() {
 
       </Switch>
       </CartContext.Provider >
+      </CurrencyContext.Provider >
+
       <Footer></Footer>
     </>
   );

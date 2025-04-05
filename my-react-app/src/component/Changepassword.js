@@ -1,10 +1,10 @@
 import React from 'react'
 import Slidbar from './Slidbar'
-const Changepassword = () => {
+const Changepassword = () => { 
   return (
     <div className="flex shadow-2xl  m-10 w-auto" >
-      <Slidbar></Slidbar>
-      <body className=" flex items-center justify-center ml-40 w-auto">
+        <div className="mt-14"><Slidbar></Slidbar></div>
+        <body className=" flex items-center justify-center ml-40 w-auto">
   <div className="w-full  bg-white rounded-lg shadow-lg p-6">
     <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Change Password</h2>
     <form action="#" method="POST" className="space-y-4">
