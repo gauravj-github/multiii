@@ -87,12 +87,12 @@ const Header = () => {
               >
                 My Cart ({cartItems})
               </Link>
-              <Link
+              {/* <Link
                 to="/checkout"
                 className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
               >
                 New Order(4)
-              </Link>
+              </Link> */}
               <Changecurency></Changecurency>
 
             </div>

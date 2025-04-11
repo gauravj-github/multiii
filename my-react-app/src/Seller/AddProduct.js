@@ -21,8 +21,11 @@ const AddProduct = () => {
   });
   const [successMessage, setSuccessMessage] = useState(''); // State to hold success message
   const [errorMessage, setErrorMessage] = useState(''); // State to hold error message
-  const [productimg,setproductimg]=useState([])
-
+  const [productImages, setProductImages] = useState({
+    image1: null,
+    image2: null,
+    image3: null,
+  });
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -38,14 +41,15 @@ const AddProduct = () => {
       [name]: files[0],
     }));
   };
-  function multipleFileHandler(e) {
-    const files = Array.from(e.target.files); // Convert FileList to array
-    if (files.length > 0) {
-      setproductimg(files);
-    }
-  }
-  
-console.log(productimg,"dhv")
+  const handleMultipleImageChange = (e) => {
+    const { name, files } = e.target;
+    setProductImages((prevImages) => ({
+      ...prevImages,
+      [name]: files[0],
+    }));
+  };
+  // 
+// console.log(productimg,"dhv")
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData.category,formData.vendor,"ngv")
@@ -81,16 +85,19 @@ console.log(formData)
       .then(function (response) {
 
 
-      for (let i=0;i<productimg.length;i++){
-        const ImsgeformData = new FormData();
-        ImsgeformData.append('Product',response.data.id)
-        ImsgeformData.append('image',productimg[i])
+        for (const key in productImages) {
+
+            const imageForm = new FormData();
+            imageForm.append('Product', response.data.id);
+            imageForm.append('image', productImages[key]);
         axios
-        .post('http://127.0.0.1:8000/api/product-img/', ImsgeformData,{
+        .post('http://127.0.0.1:8000/api/product-img/', imageForm,{
           headers: {
             'Content-Type': 'multipart/form-data',
           },
       })
+    
+      
         .then(function (response) {
           // setSuccessMessage('Product added successfully!'); // Set success message
           // setErrorMessage(''); // Clear error message (if any)
@@ -298,39 +305,17 @@ console.log(formData)
             </div>
             <p>upload three image for product detail page </p>
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                Product Image
-              </label>
-              <input
-                type="file"
-                name="image"
-                onChange={multipleFileHandler}
-                className="mt-1 block w-full text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                accept="image/*"
-              />
-            </div><div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                Product Image
-              </label>
-              <input
-                type="file"
-                name="image"
-                onChange={multipleFileHandler}
-                className="mt-1 block w-full text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                accept="image/*"
-              />
-            </div><div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                Product Image
-              </label>
-              <input
-                type="file"
-                name="image"
-                onChange={multipleFileHandler}
-                className="mt-1 block w-full text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                accept="image/*"
-              />
-            </div>
+        <label className="block">Product Image 1</label>
+        <input type="file" name="image1" accept="image/*" onChange={handleMultipleImageChange} className="w-full" />
+      </div>
+      <div>
+        <label className="block">Product Image 2</label>
+        <input type="file" name="image2" accept="image/*" onChange={handleMultipleImageChange} className="w-full" />
+      </div>
+      <div>
+        <label className="block">Product Image 3</label>
+        <input type="file" name="image3" accept="image/*" onChange={handleMultipleImageChange} className="w-full" />
+      </div>
 
             <div>
               <button

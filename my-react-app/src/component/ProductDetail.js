@@ -88,7 +88,7 @@ const ProductDetail = () => {
   const tagesLinks=[]
   for (let i=0 ; i<productTag.length ; i++){
     let tag =productTag[i].trim()
-    tagesLinks.push(<Link className="mr-6 p-2 bg-gray-600 shadow-xl text-white rounded-xl hover:text-green-400 hover:shadow-2xl" to={`/products/${tag}`}>{tag}</Link>)
+    tagesLinks.push(<Link  to={`/products/${tag}`}> <span className="mr-4  text-xl p-1 border border-emerald-400  bg-gray-600 shadow-xl text-white rounded-xl hover:text-green-400 hover:shadow-2xl">{tag}</span></Link>)
 
     
   }
@@ -247,7 +247,7 @@ const ProductDetail = () => {
       <img
         src={productDet.product_imgs[currentIndex]?.image}
         alt={`Product Image ${currentIndex + 1}`}
-        className="rounded-lg w-full object-cover"
+        className="rounded-lg w-96 h-full object-cover"
       />
     ) : (
       <p>No images available</p>
@@ -350,14 +350,8 @@ const ProductDetail = () => {
           <div className="h-0.5 bg-black mt-3"></div>
           <div >
             <h3 className="text-2xl font-bold mt-3">Tages</h3>
-            <p className="mt-3" >
-            {/* {para &&(
-          <p className="mb-3">
-            no tages are available for this product
-          </p>
-          )} */}
+
 {tagesLinks}
-            </p>
           </div>
         </div>
 

@@ -13,7 +13,7 @@ const Home = () => {
     
       const baseUrl ="http://127.0.0.1:8000/api/"
       useEffect(()=>{
-         fetchData(baseUrl+'products/?fetch_limit=3');
+         fetchData(baseUrl+'latestproduct/?fetch_limit=3');
       },[])
     
       function fetchData(baseurl){

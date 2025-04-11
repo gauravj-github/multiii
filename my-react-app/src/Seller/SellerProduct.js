@@ -18,9 +18,12 @@ const SellerProduct = () => {
   }, []);
 
   function remove(id){
+    var _confirm =window.confirm(" Are you sure to delete this product")
+    console.log(_confirm)
+    if (_confirm===true){
     axios.delete(`http://127.0.0.1:8000/api/product/${id}`)
     .then(function (response) {
-console.log(response.data)
+console.log(response.data,"deleted")
 window.location.reload()
 
 
@@ -29,6 +32,7 @@ window.location.reload()
     .catch(function (error) {
       console.log(error);
     });
+  }
   }
 
     return (
@@ -64,8 +68,8 @@ window.location.reload()
           {item.publish_status && <td className="border border-gray-300 px-4 py-2 text-green-500 font-semibold"> published </td>}
           {!item.publish_status && <td className="border border-gray-300 px-4 py-2 text-red-700 font-semibold"> pending </td>}
          <td className="border border-gray-300 px-4 py-2 space-x-2">
-           <a href="#" className="text-blue-500 hover:underline">View</a>
-           <Link to="/seller/updateProduct" className="text-yellow-500 hover:underline">Edit</Link>
+           <Link  className="text-blue-500 hover:underline" to={`/product/${item.title}/${item.id}`}>View</Link>
+           <Link to={`/seller/updateProduct/${item.id}`} className="text-yellow-500 hover:underline">Edit</Link>
            
            <a href="#" className="text-red-500 hover:underline" onClick={()=>remove(item.id)}>Delete</a>
          </td>

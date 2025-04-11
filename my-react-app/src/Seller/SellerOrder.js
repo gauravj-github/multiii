@@ -1,7 +1,31 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min"
 import SellerSlidbar from "./SellerSlidbar"
+import { useEffect,useState } from "react";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+
+
 
 const SellerOrder = () => {
+const [vendororder,setvendororder]=useState([])
+
+  const vendor_id = localStorage.getItem('vender_id');
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axios.get(`http://127.0.0.1:8000/api/vendororderlist/${vendor_id}`)
+      .then(response => {
+        // console.log(response.data.results)
+        setvendororder(response.data.results)
+
+      })
+      .catch(error => console.log(error));
+  };
+  console.log(vendororder)
   return (
     <div className='flex shadow-2xl  m-10 w-auto justify-around'>
     <SellerSlidbar></SellerSlidbar>
@@ -20,15 +44,30 @@ const SellerOrder = () => {
 
 {/* Table Body */}
 <tbody>
-<tr className="hover:bg-gray-50">
-<td className="border border-gray-300 px-4 py-2">1</td>
-<td className="border border-gray-300 px-4 py-2">Product Title</td>
-<td className="border border-gray-300 px-4 py-2">₹500</td>
-<td className="border border-gray-300 px-4 py-2 text-green-500 font-semibold">completed</td>
-<td className="border border-gray-300 px-4 py-2 space-x-2">
-<a href="#" >Downloasd</a>  
-</td>
-</tr>
+{vendororder && vendororder.length > 0 ? (
+  vendororder.map((item, index) => (
+    <tr key={item.id} className="hover:bg-gray-50">
+      <td className="border border-gray-300 px-4 py-2  font-semibold">{index + 1}</td>
+      <td className="border border-gray-300 px-4 py-2  font-semibold">{item.product?.title}</td>
+      <td className="border border-gray-300 px-4 py-2  font-semibold">₹{item.price}</td>
+      <td className="border border-gray-300 px-4 py-2 font-semibold">
+      {item.order_status === true && <><span className=" text-green-500">ordrtstatue : </span><FontAwesomeIcon icon={faCheckCircle} style={{ color: "green", fontSize: "24px" }} /> </>}
+      {item.order_status === false && <><span className="text-red-600">ordrtstatue : </span><FontAwesomeIcon icon={faTimesCircle} style={{ color: "red", fontSize: "24px" }} /></>}
+      </td>
+      <td className="border border-gray-300 px-4 py-2 space-x-2  font-semibold">
+        <a href="#">Download</a>
+      </td>
+    </tr>
+  ))
+) : (
+  <tr>
+    <td colSpan="5" className="text-center py-4">Loading order data...</td>
+  </tr>
+)}
+
+
+
+
 </tbody>
 </table>
 

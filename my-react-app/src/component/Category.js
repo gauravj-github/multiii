@@ -50,7 +50,7 @@ const Category = () => {
 
                 <img
                   className="w-full h-64 object-cover rounded-t-lg"
-                  src="https://via.placeholder.com/300"
+                  src={product.image}
                   alt="Product"
                 />
               </Link>
@@ -67,7 +67,7 @@ const Category = () => {
               {/* Price */}
 
               <div className='text-xl p-3 m-2'>
-                <p >  Products Downloades:22</p>
+                {/* <p >  Products Downloades:22</p> */}
               </div>
             </div>
           </div>

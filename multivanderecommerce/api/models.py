@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Vendor(models.Model):
    user = models.ForeignKey(User , on_delete=models.CASCADE)
    mobile = models.PositiveBigIntegerField(null=True)
-   profile_img =models.ImageField(upload_to="Customer_imgs", null=True)
+   profile_img =models.ImageField(upload_to="vendor_imgs", null=True)
    address = models.CharField(max_length=255,null=True)
   
    def __str__(self):
@@ -16,6 +16,7 @@ class Vendor(models.Model):
 class ProductCategory(models.Model):
    title =models.CharField(max_length=200)
    detail = models.TextField(null=True)
+   image = models.ImageField(upload_to='category_img/', null=True)
 
    def __str__(self):
       return self.title

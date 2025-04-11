@@ -61,10 +61,10 @@ const Order = () => {
                     Title: {orderItem.product?.title || "No Product Name"}
                   </Link>
                 </div>
-                <p className="mr-10">Price: ${orderItem.price}</p>
+                <p className="mr-10 text-xl "> <span className="text-xl font-bold">Price:</span> ${orderItem.price}</p>
                 <p className="mr-10">
-                  {orderItem.order_status === true && <FontAwesomeIcon icon={faCheckCircle} style={{ color: "green", fontSize: "24px" }} />}
-                  {orderItem.order_status === false && <FontAwesomeIcon icon={faTimesCircle} style={{ color: "red", fontSize: "24px" }} />}
+                  {orderItem.order_status === true && <><span className="text-xl font-bold">ordrtstatue : </span><FontAwesomeIcon icon={faCheckCircle} style={{ color: "green", fontSize: "24px" }} /> </>}
+                  {orderItem.order_status === false && <><span className="text-xl font-bold">ordrtstatue : </span><FontAwesomeIcon icon={faTimesCircle} style={{ color: "red", fontSize: "24px" }} /></>}
                 </p>
 
                 {orderItem.order_status === true && orderItem.product?.id && (

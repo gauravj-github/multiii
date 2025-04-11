@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class VendorSerializer(serializers.ModelSerializer):
      class Meta:
           model = Vendor
-          fields =['id','user','address']
+          fields =['id','user','address','mobile']
      def __init__(self,*args,**kwargs):
           super(VendorSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
@@ -17,7 +17,7 @@ class VendorSerializer(serializers.ModelSerializer):
 class VendorDetailSerializer(serializers.ModelSerializer):
      class Meta:
           model = Vendor
-          fields =['id','user','address']
+          fields =['id','user','address','mobile']
      def __init__(self,*args,**kwargs):
           super(VendorDetailSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
@@ -26,6 +26,11 @@ class ProductImageSerializer(serializers.ModelSerializer):
      class Meta:
           model = ProductImage
           fields =['id','Product','image']
+          
+# class ProductDetailImageSerializer(serializers.ModelSerializer):
+#      class Meta:
+#           model = ProductImage
+#           fields =['id','Product','image']
           
 class ProductSerializer(serializers.ModelSerializer):
     # Use PrimaryKeyRelatedField for foreign keys
@@ -49,11 +54,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
+     vendor = serializers.PrimaryKeyRelatedField(queryset=Vendor.objects.all(), required=False)
+     category = serializers.PrimaryKeyRelatedField(queryset=ProductCategory.objects.all(), required=False)
      product_rating = serializers.StringRelatedField(many = True , read_only = True)
      product_imgs = ProductImageSerializer(many=True,read_only=True)
      class Meta:
           model = Product
-          fields =['id','vendor','category','title','slug','tag_list','detail','price','image','product_rating','product_imgs','product_file','downloads',"uds_price",'publish_status']
+          fields =['id','vendor','category','title','slug','tag_list','detail','price','image','product_rating','product_imgs','product_file','downloads',"uds_price",'publish_status',"demo_url",'tag']
+          depth = 1
      def __init__(self,*args,**kwargs):
           super(ProductDetailSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
@@ -82,11 +90,11 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
      def __init__(self,*args,**kwargs):
           super(CustomerDetailSerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1
-     # def to_representation(self, instance):
-     #      response = super().to_representation(instance)
-     #      response['user']=UserSerializer(instance.user).data
-     #      # response['customer_orders']=OrderSerializer(instance.customer_orders).data
-     #      return response
+     def to_representation(self, instance):
+          response = super().to_representation(instance)
+          response['user']=UserSerializer(instance.user).data
+          # response['customer_orders']=OrderSerializer(instance.customer_orders).data
+          return response
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -106,7 +114,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
      def to_representation(self, instance):
           response = super().to_representation(instance)
           response['order']=OrderSerializer(instance.order).data
+          response['customrer']=CustomerSerializer(instance.order.customer).data
+          response['user']=UserSerializer(instance.order.customer.user).data
           response['product']=ProductDetailSerializer(instance.product).data
+      
           return response
           
 
@@ -143,7 +154,7 @@ class ProductRatingSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
      class Meta:
           model = ProductCategory
-          fields =['id','title','detail']
+          fields =['id','title','detail','image']
      def __init__(self,*args,**kwargs):
           super(CategorySerializer,self).__init__(*args, **kwargs)
           self.Meta.depth =1

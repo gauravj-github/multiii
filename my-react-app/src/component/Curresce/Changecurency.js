@@ -16,7 +16,7 @@ const currentCurrency = localStorage.getItem("currency")
   // console.log(Currency,"kddjcn")
   return (
     <div>
-      <select onChange={Changecurrency}>
+      <select className='bg-orange-100' onChange={Changecurrency}>
         {CurrencyData !="usd" && <>
         <option value="usd">USD</option>
         <option value='inr' selected>INR</option>

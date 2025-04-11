@@ -2,7 +2,8 @@ from rest_framework.response import Response
 from rest_framework import generics,permissions , pagination
 from .serializer import (VendorSerializer , VendorDetailSerializer , ProductSerializer,ProductDetailSerializer
 ,CustomerSerializer ,CustomerDetailSerializer,OrderSerializer,OrderDetailSerializer,CustomerAddressSerializer,
-ProductRatingSerializer,CategorySerializer,CategoryDetailSerializer,OrderItemSerializer,ProductImageSerializer,WishlistSerializer,UserSerializer)
+ProductRatingSerializer,CategorySerializer,CategoryDetailSerializer,OrderItemSerializer,ProductImageSerializer,WishlistSerializer,
+UserSerializer)
 from rest_framework.routers import DefaultRouter
 from rest_framework import viewsets
 from .models import ProductCategory
@@ -40,18 +41,36 @@ class ProductsList(generics.ListCreateAPIView):
         # limit = int(self.request.GET.get('fetch_limit'))
         # # print(type(limit))
         # if limit:
-        #   try:
+        # #   try:
         #      qs = qs[:limit]
             # Return a 404 response
         vendor_product = self.request.GET.get('vendor_product')
         if vendor_product:
             qs = Product.objects.filter(vendor__id=vendor_product)        
         return qs
+    
+class LatestProductList(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class  = ProductSerializer
+    pagination_class =pagination.LimitOffsetPagination
+    # permission_classes =[permissions.IsAuthenticated]
+
+    
+    def get_queryset(self):
+        qs = super().get_queryset()
+        limit = int(self.request.GET.get('fetch_limit'))
+        if limit:
+             qs = qs[:limit]
+        return qs
+
 
 class ProductsImgsList(generics.ListCreateAPIView):
     queryset = ProductImage.objects.all()
     serializer_class  = ProductImageSerializer
 
+class ProductsDetailImgs(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class  = ProductImageSerializer
 
 
 
@@ -421,9 +440,9 @@ def customerDashboard(request,pk):
             # print(product_id,customer_id,"same")
             if not customer_id:
                 return JsonResponse({"error":"missing data"})
-            Addresscount = CustomerAddress.objects.filter(customer_id=customer_id).count()
-            Wishlistcount = Wishlist.objects.filter(id=customer_id).count()
-            ordercount = Order.objects.filter(id=customer_id).count()
+            Addresscount = CustomerAddress.objects.filter(customer__id=customer_id).count()
+            Wishlistcount = Wishlist.objects.filter(customer__id=customer_id).count()
+            ordercount = OrderItem.objects.filter(order__customer__id=customer_id).count()
             if Addresscount:
                 return JsonResponse({"bool":True,"Addresscount":Addresscount,"Wishlistcount":Wishlistcount,"ordercount":ordercount})
             else:
@@ -511,8 +530,80 @@ def vendor_login(request):
         'msg':"Invalid username and password!" 
           }
       return JsonResponse(msg)
+
+
+    
+
+@csrf_exempt
+@api_view(["POST"])
+def vendorDashboard(request,pk):
+    if request.method == "POST":
+        # try:
+            vendor_id=pk
+            # print(product_id,customer_id,"same")
+            if not vendor_id:
+                return JsonResponse({"error":"missing data"})
+            Productcount = Product.objects.filter(vendor__id=vendor_id).count()
+            totalorder = OrderItem.objects.filter(product__vendor__id=vendor_id).count()
+            totalcustomer = OrderItem.objects.filter(product__vendor__id=vendor_id).count()
+            if Productcount:
+                return JsonResponse({"bool":True,"productcount":Productcount,
+                                     "totalcustomer":totalcustomer,
+                                     "totalorder":totalorder
+                                     })
+            else:
+                 return JsonResponse({"bool":False,"totalcount":0})
+            
+
+
+# class ProductMultipleImg(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ProductImage.objects.all()
+#     serializer_class  = ProductDetailImageSerializer
+#     # permission_classes =[permissions.IsAuthenticated]
+#     def get_queryset(self):
+#         product_id  = self.kwargs['product_id']
+#         order = ProductImage.objects.filter(Product__id = product_id)
+#         return order
     
 
 
+class VendorOrdersItemsList(generics.ListCreateAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class  = OrderItemSerializer
+    # permission_classes =[permissions.IsAuthenticated]
+    def get_queryset(self):      
+       qs = super().get_queryset()
+    #    print(qs,"jbmhv")
+       vendor_id = self.kwargs['pk']
+    #    print(t,"mbvnmvb")
+       qs = qs.filter(product__vendor__id = vendor_id)
+    #    print(qs)
+       return (qs)
+    
 
-   
+
+class VendorCustomerList(generics.ListCreateAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class  = OrderItemSerializer
+    # permission_classes =[permissions.IsAuthenticated]
+    def get_queryset(self):      
+       qs = super().get_queryset()
+    #    print(qs,"jbmhv")
+       vendor_id = self.kwargs['pk']
+    #    print(t,"mbvnmvb")
+       qs = qs.filter(product__vendor__id = vendor_id)
+    #    print(qs)
+       return (qs)
+    
+class VendororderList(generics.ListCreateAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class  = OrderItemSerializer
+    # permission_classes =[permissions.IsAuthenticated]
+    def get_queryset(self):      
+       qs = super().get_queryset()
+    #    print(qs,"jbmhv")
+       vendor_id = self.kwargs['vendor_id']
+       customer_id = self.kwargs['customer_id']
+       qs = qs.filter(product__vendor__id = vendor_id ,order__customer__id = customer_id)
+    #    print(qs)
+       return (qs)

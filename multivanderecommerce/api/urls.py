@@ -23,6 +23,11 @@ urlpatterns = [
     path('product/<int:pk>',ProductDetail.as_view()),
     path('related-product/<int:pk>',RelatedProductsList.as_view()),
     path('product-img/',ProductsImgsList.as_view()),
+    path('productdeleteimagemultiple/<int:pk>',ProductsDetailImgs.as_view()),
+    path('vendororderlist/<int:pk>',VendorOrdersItemsList.as_view()),
+    path('vendorcustomeerlist/<int:pk>',VendorCustomerList.as_view()),
+    
+
 
 
     #product category
@@ -51,6 +56,12 @@ urlpatterns = [
     path('customer/<int:pk>/address-list/',CustomerAddressList.as_view()),
     path('mark-defaut-address/<int:pk>/',mark_defaut_address),    
      path('customer/dashboard/<int:pk>/',customerDashboard),
+     path('vendor/dashboard/<int:pk>/',vendorDashboard),
+     path('vendor/<int:vendor_id>/customer/<int:customer_id>',VendororderList.as_view()),
+    path('latestproduct/',LatestProductList.as_view()),
+
+
+
     #  path("productss/",pd)
 
     # mark_defaut_address

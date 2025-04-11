@@ -34,6 +34,7 @@ import SellerCustomer from "./Seller/SellerCustomer";
 import Reports from "./Seller/Reports";
 import SellerProfile from "./Seller/SellerProfile"
 import SellerChangepassword from "./Seller/SellerChangepassword"
+import SellerCustomerOrder from "./Seller/SellerCustomerOrder";
 import Relatedproduct from "./component/Relatedproduct";
 import TagProducts from "./component/TagProducts";
 
@@ -85,19 +86,15 @@ function App() {
         <Route path="/seller/dashboard" component={SellerDashboard}></Route>
         <Route path="/seller/products" component={SellerProduct}></Route>
         <Route path="/seller/Addproduct" component={AddProduct}></Route>
-        <Route path="/seller/updateProduct" component={UpdateProduct}></Route>
+        <Route path="/seller/updateProduct/:id" component={UpdateProduct}></Route>
         <Route path="/seller/orders" component={SellerOrder}></Route>
         <Route path="/seller/Customer" component={SellerCustomer}></Route>
         <Route path="/seller/Reports" component={Reports}></Route>
         <Route path="/seller/Profile" component={SellerProfile}></Route>
         <Route path="/seller/Changepassword" component={SellerChangepassword}></Route>
 
-
-
-
-
-
-      </Switch>
+        <Route path="/customerorder/:id" component={SellerCustomerOrder}></Route>
+        </Switch>
       </CartContext.Provider >
       </CurrencyContext.Provider >
 
