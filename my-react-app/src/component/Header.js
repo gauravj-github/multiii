@@ -66,7 +66,12 @@ const Header = () => {
               >
                 Home
               </Link>
-
+ <Link
+                to="/Allproduct"
+                className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
+              >
+                AllProduct
+              </Link>
               <Link
                 to="/categories"
                 className="text-gray-800 hover:text-blue-600 font-bold text-xl transition nav-link"
@@ -74,12 +79,7 @@ const Header = () => {
                 Category
               </Link>
 
-              <Link
-                to="/Allproduct"
-                className="text-gray-800 hover:text-blue-600 font-bold text-xl transition"
-              >
-                AllProduct
-              </Link>
+             
 
               <Link
                 to="/checkout"
