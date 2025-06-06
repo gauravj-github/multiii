@@ -59,14 +59,14 @@ const Singleproduct = ({product}) => {
             _currency == "usd" &&   <p className="text-2xl font-bold text-gray-900 mt-4">${product.uds_price}           </p>
 
           }        {/* Add to Cart Button */}
-        <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+        {/* <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
           Add to Cart
-        </button>
+        </button> */}
       </div>
       
     </div>
   </div>
-  </>
+  </> 
   
   )
 }
