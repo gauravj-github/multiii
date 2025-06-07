@@ -3,10 +3,11 @@ import SellerSlidbar from "./SellerSlidbar"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
 const vendor_id = localStorage.getItem("vender_id")
+const live = "https://multivendor.pythonanywhere.com/"
 const SellerProduct = () => {
   const[product,setproduct]=useState([])
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/products/?vendor_product=${vendor_id}`) 
+    axios.get(`${live}api/products/?vendor_product=${vendor_id}`) 
       .then(response => {
           console.log(response.data.results);
           setproduct(response.data.results)
@@ -21,7 +22,7 @@ const SellerProduct = () => {
     var _confirm =window.confirm(" Are you sure to delete this product")
     console.log(_confirm)
     if (_confirm===true){
-    axios.delete(`http://127.0.0.1:8000/api/product/${id}`)
+    axios.delete(`${live}api/product/${id}`)
     .then(function (response) {
 console.log(response.data,"deleted")
 window.location.reload()

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
+const live = "https://multivendor.pythonanywhere.com/"
 
 const Updateaddress = () => {
     const {id} =useParams();
@@ -11,7 +12,7 @@ useEffect(()=>{
     addressFetch()
 },[])
     function addressFetch(){
-        axios.get(`http://127.0.0.1:8000/api/address/${id}/`) 
+        axios.get(`${live}api/address/${id}/`) 
         .then(function (response) {
             console.log(response.data.address)
             updatedaddress(response.data.address)
@@ -24,7 +25,7 @@ function submitHandler(){
     const formData =new FormData();
     formData.append("id",id)
     formData.append("address",address)
-    axios.patch(`http://127.0.0.1:8000/api/address/${id}/`,formData) 
+    axios.patch(`${live}api/address/${id}/`,formData) 
     .then(function (response) {
         console.log(response.data.address)
         updatedaddress(response.data.address)

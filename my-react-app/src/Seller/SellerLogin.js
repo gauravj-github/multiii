@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'; // for navigation after successful login
 import axios from 'axios';
-
+const live = "https://multivendor.pythonanywhere.com/"
 const SellerLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +25,7 @@ const SellerLogin = () => {
     formData.append('username', username);
     formData.append('password', password);
   
-    axios.post("http://127.0.0.1:8000/api/vendor/login/", formData)
+    axios.post(`${live}api/vendor/login/`, formData)
       .then((response) => {
         if (response.data && response.data.bool === false) {
           setError(response.data.msg);  // set error message if login fails

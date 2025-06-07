@@ -4,13 +4,15 @@ import axios from 'axios'
 import { CurrencyContext} from '../congtext/context'
 import { useContext } from 'react'
 const user_id=localStorage.getItem('user_id')
+const live = "https://multivendor.pythonanywhere.com/"
+
 const Wishlist = () => {
     const [wishlistData ,setwishlistData]=useState()
       const {CurrencyData} =useContext(CurrencyContext)
     
     // console(user_id)
-    const baseurl="http://127.0.0.1:8000"
-      const baseUrl ="http://127.0.0.1:8000/api/customer/"
+    const baseurl="https://multivendor.pythonanywhere.com/"
+      const baseUrl ="https://multivendor.pythonanywhere.com/api/customer/"
           useEffect(()=>{
             WishlistData(baseUrl+`${user_id}/wishitems/`);
           },[])
@@ -26,7 +28,7 @@ const Wishlist = () => {
   function removeFromeWishlist(id){
             const formData =new FormData();
             formData.append("product_id",id)
-            axios.post('http://127.0.0.1:8000/api/remove-from-wishlist/',formData)
+            axios.post(`${live}api/remove-from-wishlist/`,formData)
             .then(function(response){
               console.log(response.data.bool)
               window.location.reload()

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import SellerSlidbar from "./SellerSlidbar"
+const live = "https://multivendor.pythonanywhere.com/"
 
 const SellerCustomerOrder = () => {
    const {id} =useParams()
@@ -15,7 +16,7 @@ const SellerCustomerOrder = () => {
     }, []);
   
     const fetchData = () => {
-      axios.get(`http://127.0.0.1:8000/api/vendor/${vendor_id}/customer/${id}`)
+      axios.get(`${live}api/vendor/${vendor_id}/customer/${id}`)
         .then(response => {
           console.log(response.data.results,"cmd")  
           setvendororder(response.data.results)

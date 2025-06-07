@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SellerSlidbar from "./SellerSlidbar";
 import { useParams, useHistory } from "react-router-dom";
 import axios from 'axios';
+const live = "https://multivendor.pythonanywhere.com/"
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -28,11 +29,11 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     fetchData(id);
-    fetchCategories("http://127.0.0.1:8000/api/caterories/");
+    fetchCategories(`${live}api/caterories/`);
   }, []);
 
   const fetchData = (id) => {
-    axios.get(`http://127.0.0.1:8000/api/product/${id}`)
+    axios.get(`${live}api/product/${id}`)
       .then(response => {
         const dat = response.data;
         setcategory(dat.category);
@@ -105,7 +106,7 @@ const UpdateProduct = () => {
     // console.log("🔄 Form submitting...");
     // console.log("🖼️ ProductImages:", productImages);
 
-    axios.patch(`http://127.0.0.1:8000/api/product/${id}`, formDataToSend, {
+    axios.patch(`${live}api/product/${id}`, formDataToSend, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
     .then(response => {
@@ -121,7 +122,7 @@ const UpdateProduct = () => {
 
           console.log(`📤 Uploading ${key}:`, file.name);
 
-          axios.post('http://127.0.0.1:8000/api/product-img/?from_update=1', imgForm, {
+          axios.post(`${live}api/product-img/?from_update=1`, imgForm, {
             headers: { 'Content-Type': 'multipart/form-data' }
           })
           .then(res => console.log(` ${key} uploaded`, res.data))
@@ -135,7 +136,7 @@ const UpdateProduct = () => {
 
   function deleteimg(id){
     console.log(id)
-    axios.delete(`http://127.0.0.1:8000/api/productdeleteimagemultiple/${id}`)
+    axios.delete(`${live}api/productdeleteimagemultiple/${id}`)
     .then(res => console.log("uploaded", res.data,
       window.location.reload()
     ))

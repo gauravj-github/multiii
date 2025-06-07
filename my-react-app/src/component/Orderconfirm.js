@@ -3,7 +3,7 @@ import { useContext,useState} from 'react';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-
+const live = "https://multivendor.pythonanywhere.com/"
 export const Orderconfirm = () => {
   const userContext = useContext(UserContext); // Correct use of useContext
   const { cartData, setCartData } = useContext(CartContext)
@@ -31,7 +31,7 @@ console.log(customer_id)
 //  const formdata = new FormDat a()
 //  formdata.append('customer',1 )
 //  console.log(formdata)
-axios.post(`http://127.0.0.1:8000/api/orders/?customer_id=${customer_id}`)
+axios.post(`${live}api/orders/?customer_id=${customer_id}`)
 
 .then(function(response){
   console.log(response.data.id)
@@ -57,7 +57,7 @@ function orderItem(order_id){
       formData.append('qty',1)
       formData.append('price',cart.produc.price)
 
-      axios.post(`http://127.0.0.1:8000/api/orderItem/`,formData)
+      axios.post(`${live}api/orderItem/`,formData)
       .then(function(response){
         console.log(response.data)
         cartjson.splice(index ,1)
@@ -89,7 +89,7 @@ if (pay == ""){
 }
 function updateOrderStatus(orderstatus){
   console.log(orderid,orderstatus)
-  axios.post(`http://127.0.0.1:8000/api/update-order-status/${orderid}`)
+  axios.post(`${live}api/update-order-status/${orderid}`)
   .then((response)=>{
     console.log(response.data)
     history.push("/customer/order")

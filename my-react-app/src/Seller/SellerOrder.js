@@ -4,6 +4,7 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+const live = "https://multivendor.pythonanywhere.com/"
 
 
 
@@ -17,7 +18,7 @@ const [vendororder,setvendororder]=useState([])
   }, []);
 
   const fetchData = () => {
-    axios.get(`http://127.0.0.1:8000/api/vendororderlist/${vendor_id}`)
+    axios.get(`${live}api/vendororderlist/${vendor_id}`)
       .then(response => {
         // console.log(response.data.results)
         setvendororder(response.data.results)

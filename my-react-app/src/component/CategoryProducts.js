@@ -2,13 +2,15 @@ import React from 'react'
 import Singleproduct from './Singleproduct'
 import { useState,useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min'
+const live = "https://multivendor.pythonanywhere.com/"
+
 const CategoryProducts = () => {
-  const baseUrl ="http://127.0.0.1:8000/api/"
+  const baseUrl =`${live}api/`
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState() 
     const {slug ,id} = useParams()
   useEffect(()=>{
-     fetchData(baseUrl+'products/?category='+ id);
+     fetchData(`${baseUrl}products/?category=${id}`);
   },[])
 
   function fetchData(baseurl){
@@ -33,7 +35,7 @@ const CategoryProducts = () => {
   var totalLinks = totalResult/limit
   for (let i=0;i<totalLinks;i++){
     links.push(<li className='border-black border p-3 mb-5 bg-teal-300'>
-      <Link onClick={()=>changeUrl(baseUrl+`products/?categor6y=${id}&page=${i}`)} >{i}</Link>
+<Link onClick={() => changeUrl(baseUrl + `products/?category=${id}&page=${i}`)}>{i}</Link>
       </li>
     )
   }

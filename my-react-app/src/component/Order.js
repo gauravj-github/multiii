@@ -4,15 +4,17 @@ import Slidbar from './Slidbar';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+const live = "https://multivendor.pythonanywhere.com/"
+
 
 const customer_id = localStorage.getItem("user_id");
-const baseurl = "http://127.0.0.1:8000"
+const baseurl = "https://multivendor.pythonanywhere.com/"
 const Order = () => {
   const [orderData, setOrderData] = useState([]); // ✅ Initialize as an empty array
   const [down , showDownload] = useState([])
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/customer-all-order/${customer_id}`) 
+    axios.get(`${live}api/customer-all-order/${customer_id}`) 
       .then(response => {
         if (response.data && response.data.results) {
           setOrderData(response.data.results); // ✅ Properly updating state
@@ -33,7 +35,7 @@ const Order = () => {
     }
     console.log(id , order_id , "vjnv")
 
-    axios.post(`http://127.0.0.1:8000/api/update_product_download/${id}/${order_id}`)
+    axios.post(`${live}api/update_product_download/${id}/${order_id}`)
       .then((response) => {
         console.log("Download updated:", response.data );
       })

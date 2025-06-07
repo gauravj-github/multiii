@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Singleproduct from "./Singleproduct";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+const live = "https://multivendor.pythonanywhere.com/"
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -11,9 +12,9 @@ const Home = () => {
     const [totalResult , setTotalResults] =useState()
 
     
-      const baseUrl ="http://127.0.0.1:8000/api/"
+      const baseUrl =`${live}api/`
       useEffect(()=>{
-         fetchData(baseUrl+'latestproduct/?fetch_limit=3');
+fetchData(`${baseUrl}latestproduct/?fetch_limit=3`);
       },[])
     
       function fetchData(baseurl){

@@ -2,6 +2,8 @@ import React, { useState ,useEffect} from 'react'
 import Slidbar from './Slidbar'
 import axios from 'axios'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+const live = "https://multivendor.pythonanywhere.com/"
+
 const Dashboard = () => {
   const customer_id = localStorage.getItem('user_id')
   const [addresscount , setaddresscount ]=useState()
@@ -12,7 +14,7 @@ const Dashboard = () => {
     Totalorder()
   },[])
   function Totalorder(){
-    axios.post(`http://127.0.0.1:8000/api/customer/dashboard/${customer_id }/`) 
+    axios.post(`${live}api/customer/dashboard/${customer_id }/`) 
     .then(function (response) {
         console.log(response.data)
         setwishlistcount(response.data.Wishlistcount)

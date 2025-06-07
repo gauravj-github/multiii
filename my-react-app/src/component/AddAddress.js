@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 const customer_id = localStorage.getItem('user_id')
+const live = "https://multivendor.pythonanywhere.com/"
 const AddAddress = () => {
   const [address,setaddress]=useState('')
   const[success,setsuccess]=useState()
@@ -15,7 +16,7 @@ const AddAddress = () => {
     formData.append('address', address)
 
 
-   axios.post("http://127.0.0.1:8000/api/address/", formData)
+   axios.post(`${live}api/address/`, formData)
   .then(function (response) {
     // Handle the success response
     console.log("Address added:", response.data);

@@ -5,7 +5,7 @@ import { MdAttachMoney } from 'react-icons/md';
 import Singleproduct from "./Singleproduct";
 import { UserContext,CartContext } from "../congtext/context";
 import axios from 'axios';
-
+const live = "https://multivendor.pythonanywhere.com/"
 const user_id = localStorage.getItem('user_id')
 
 
@@ -52,7 +52,7 @@ const ProductDetail = () => {
   }, [id]);
 
   const productDetailIdwise = (productId) => {
-    fetch(`http://127.0.0.1:8000/api/product/${productId}`)
+    fetch(`${live}api/product/${productId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -70,7 +70,7 @@ const ProductDetail = () => {
  
 
   const fetchRelatedProduct = () => {
-    fetch(`http://127.0.0.1:8000/api/related-product/${id}`)
+    fetch(`${live}api/related-product/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -195,7 +195,7 @@ const ProductDetail = () => {
     const formData =new FormData();
     formData.append("customer",user_id)
     formData.append("product",id)
-    axios.post('http://127.0.0.1:8000/api/Wishlist/',formData)
+    axios.post(`${live}api/Wishlist/`,formData)
     .then(function(response){
       console.log(response.data)
       window.location.reload()
@@ -215,7 +215,7 @@ const ProductDetail = () => {
        console.log(user_id,p,"kg")
 
 
-    axios.post('http://127.0.0.1:8000/api/check-in-wishlist/',formData)
+    axios.post(`${live}api/check-in-wishlist/`,formData)
     .then(function(response){
       console.log(response.data.bool)
       if (response.data.bool==true){

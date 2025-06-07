@@ -3,7 +3,7 @@ import Slidbar from './Slidbar'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
 const customer_id = localStorage.getItem('user_id')
-
+const live = "https://multivendor.pythonanywhere.com/"
 const Address = () => {
         const[address,setaddress]=useState([])
         const[nn,setnn]=useState()
@@ -11,7 +11,7 @@ const Address = () => {
                 addressData()
               },[])
               function addressData(){
-            axios.get(`http://127.0.0.1:8000/api/customer/${customer_id}/address-list/`)
+            axios.get(`${live}api/customer/${customer_id}/address-list/`)
             .then(function(response){
               // console.log(response.data.results)
               setaddress(response.data.results)
@@ -27,7 +27,7 @@ const Address = () => {
               const formData = new FormData();
               formData.append("address_id",id)
               console.log(id)
-              axios.post(`http://127.0.0.1:8000/api/mark-defaut-address/${id}/`,formData) 
+              axios.post(`${live}api/mark-defaut-address/${id}/`,formData) 
               .then(function (response) {
                   console.log(response.data.address)
                   window.location.reload()

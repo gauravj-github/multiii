@@ -2,12 +2,13 @@ import React from 'react'
 import Singleproduct from './Singleproduct'
 import { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+const live = "https://multivendor.pythonanywhere.com/"
 const Allproducts = () => {
-  const baseUrl ="http://127.0.0.1:8000/api/"
+  const baseUrl =`${live}/api/`
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState()
   useEffect(()=>{
-     fetchData(baseUrl+'products/');
+     fetchData(`${baseUrl}+'products/`);
   },[])
 
   function fetchData(baseurl){

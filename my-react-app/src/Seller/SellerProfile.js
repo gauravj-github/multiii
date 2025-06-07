@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SellerSlidbar from "./SellerSlidbar"
 import axios from "axios";
-
+const live = "https://multivendor.pythonanywhere.com/"
 const Profile = () => {
   const [userid, setuserid] = useState("");
   const [first_name, setFirstname] = useState("");
@@ -24,7 +24,7 @@ const Profile = () => {
 
   function fetchData() {
     axios
-      .get(`http://127.0.0.1:8000/api/vendor/${vendor_id}`)
+      .get(`${live}api/vendor/${vendor_id}`)
       .then(function (response) {
         
         setuserid(response.data.user.id);
@@ -112,7 +112,7 @@ console.log(mobile)
       }
 
       // Submit the image and mobile update request
-      axios.patch(`http://127.0.0.1:8000/api/vendor/${vendor_id}`, formData, {
+      axios.patch(`${live}api/vendor/${vendor_id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }
@@ -132,7 +132,7 @@ console.log(mobile)
       formUserData.append('email', email);
 
       // Submit the user details update request
-      axios.patch(`http://127.0.0.1:8000/api/user_update/${userid}`, formUserData, {
+      axios.patch(`${live}api/user_update/${userid}`, formUserData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }

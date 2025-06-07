@@ -1,6 +1,7 @@
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import React, { useState } from "react";
+const live = "https://multivendor.pythonanywhere.com/"
 
 const Registration = () => {
   const [formError, setformError] = useState(false)
@@ -54,7 +55,7 @@ const Registration = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://127.0.0.1:8000/api/customer/registration",formData)
+    axios.post(`${live}api/customer/registration`,formData)
     .then((response) => {
       if(response.data.bool == false){
         setFormData ({

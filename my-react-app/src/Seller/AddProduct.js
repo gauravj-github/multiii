@@ -3,7 +3,7 @@ import SellerSlidbar from './SellerSlidbar';
 import axios from 'axios';
 
 const vender_id = localStorage.getItem('vender_id');
-
+const live = "https://multivendor.pythonanywhere.com/"
 const AddProduct = () => {
   // console.log(vender_id,"j")
   const [category, setCategory] = useState([]);
@@ -77,7 +77,7 @@ const AddProduct = () => {
 console.log(formData)
     // Send the request using axios
     axios
-      .post('http://127.0.0.1:8000/api/products/', formDataToSend, {
+      .post(`${live}api/products/`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data', // Important for file uploads
         },
@@ -91,7 +91,7 @@ console.log(formData)
             imageForm.append('Product', response.data.id);
             imageForm.append('image', productImages[key]);
         axios
-        .post('http://127.0.0.1:8000/api/product-img/', imageForm,{
+        .post(`${live}apiapi/product-img/`, imageForm,{
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -136,7 +136,7 @@ console.log(formData)
 
   function fetchCategory() {
     axios
-      .get('http://127.0.0.1:8000/api/caterories/')
+      .get(`${live}api/caterories/`)
       .then(function (response) {
         console.log(response.data.results);
         setCategory(response.data.results);

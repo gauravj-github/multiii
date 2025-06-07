@@ -1,5 +1,7 @@
 import  { useState } from "react";
 import axios from "axios";
+const live = "https://multivendor.pythonanywhere.com/"
+
 const Registration = () => {
   const [formError, setformError] = useState(false)
   const [errormsg, seterrormsg] = useState('')
@@ -52,7 +54,7 @@ const Registration = () => {
     if (validate()) {
     }
     // console.log(axios)
-    axios.post("http://127.0.0.1:8000/api/vendor/registration/", formData)
+    axios.post(`${live}api/vendor/registration/`, formData)
     .then((response) => {
       console.log(response.data, "skvbh");
       if (response.data) {

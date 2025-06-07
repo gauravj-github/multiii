@@ -2,6 +2,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min"
 import SellerSlidbar from "./SellerSlidbar"
 import axios from "axios"
 import { useState,useEffect } from "react"
+
 const SellerCustomer = () => {
   const [vendororder,setvendororder]=useState([])
 
@@ -12,7 +13,7 @@ const SellerCustomer = () => {
   }, []);
 
   const fetchData = () => {
-    axios.get(`http://127.0.0.1:8000/api/vendorcustomeerlist/${vendor_id}`)
+    axios.get(`${live}api/vendorcustomeerlist/${vendor_id}`)
       .then(response => {
         // console.log(response.data.results)
         setvendororder(response.data.results)
@@ -24,7 +25,7 @@ const SellerCustomer = () => {
     var _confirm =window.confirm(" Are you sure to delete this product")
     console.log(_confirm)
     if (_confirm===true){
-    axios.delete(`http://127.0.0.1:8000/api/product/${id}`)
+    axios.delete(`${live}api/product/${id}`)
     .then(function (response) {
 console.log(response.data,"deleted")
 window.location.reload()
