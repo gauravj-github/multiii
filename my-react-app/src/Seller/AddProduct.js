@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import SellerSlidbar from './SellerSlidbar';
 import axios from 'axios';
+import { live } from '../config';
 
 const vender_id = localStorage.getItem('vender_id');
-import { live } from '../config';
 const AddProduct = () => {
   // console.log(vender_id,"j")
   const [category, setCategory] = useState([]);

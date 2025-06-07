@@ -3,8 +3,8 @@ import Slidbar from './Slidbar'
 import axios from 'axios'
 import { CurrencyContext} from '../congtext/context'
 import { useContext } from 'react'
-const user_id=localStorage.getItem('user_id')
 import { live } from '../config'
+const user_id=localStorage.getItem('user_id')
 
 const Wishlist = () => {
     const [wishlistData ,setwishlistData]=useState()

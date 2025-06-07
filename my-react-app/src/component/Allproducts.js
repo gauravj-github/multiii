@@ -3,6 +3,7 @@ import Singleproduct from './Singleproduct'
 import { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { live } from '../config'
+
 const Allproducts = () => {
   const baseUrl =`${live}/api/`
     const [products , setProducts] =useState([])

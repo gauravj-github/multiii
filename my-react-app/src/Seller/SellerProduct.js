@@ -2,8 +2,9 @@ import React, { useEffect,useState } from 'react'
 import SellerSlidbar from "./SellerSlidbar"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
-const vendor_id = localStorage.getItem("vender_id")
 import { live } from '../config';
+
+const vendor_id = localStorage.getItem("vender_id")
 
 const SellerProduct = () => {
   const[product,setproduct]=useState([])

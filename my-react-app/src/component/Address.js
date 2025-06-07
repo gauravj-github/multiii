@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import Slidbar from './Slidbar'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
-const customer_id = localStorage.getItem('user_id')
 import { live } from '../config'
+
+const customer_id = localStorage.getItem('user_id')
+
 const Address = () => {
         const[address,setaddress]=useState([])
         const[nn,setnn]=useState()
