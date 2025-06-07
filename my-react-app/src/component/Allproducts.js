@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { live } from '../config'
 
 const Allproducts = () => {
-  const baseUrl =`${live}/api/`
+  
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState()
   useEffect(()=>{
-     fetchData(`${baseUrl}+'products/`);
+     fetchData(`${live}api/+'products/`);
   },[])
 
   function fetchData(baseurl){
