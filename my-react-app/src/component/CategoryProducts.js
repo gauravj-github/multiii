@@ -3,12 +3,15 @@ import Singleproduct from './Singleproduct'
 import { useState,useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import { live } from '../config'
+import Loader from './Loader'
 
 const CategoryProducts = () => {
   const baseUrl =`${live}api/`
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState() 
     const {slug ,id} = useParams()
+      const [loading , setloaging]=useState(true)
+    
   useEffect(()=>{
      fetchData(`${baseUrl}products/?category=${id}`);
   },[])
@@ -17,6 +20,7 @@ const CategoryProducts = () => {
   fetch(baseurl)
     .then((response) => response.json())  // Invoke json() method
     .then((data) => {setProducts(data.results) 
+      setloaging(false)
     setTotalResults(data.count)} ) // Log the data
     .catch((error) => console.error('Error:', error));  // Handle any errors
     console.log(id,slug)
@@ -39,6 +43,8 @@ const CategoryProducts = () => {
       </li>
     )
   }
+
+  if (loading) return <Loader></Loader>
   return (
     <div>
          

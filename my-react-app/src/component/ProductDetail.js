@@ -6,6 +6,7 @@ import Singleproduct from "./Singleproduct";
 import { UserContext,CartContext } from "../congtext/context";
 import axios from 'axios';
 import { live } from '../config'
+import Loader from "./Loader";
 
 
 const user_id = localStorage.getItem('user_id')
@@ -27,6 +28,7 @@ const ProductDetail = () => {
    const [relatedProduct ,setrelatedProduct] =useState([])
   const [addtocart , setaddtocart ] = useState(false)  
   const [ wishlist,setWishlist] =useState() 
+  const[loading,setloading] =useState(true)
 
   const _currency =localStorage.getItem("currency")
   // console.log(_currency,"kvjb")
@@ -64,6 +66,7 @@ const ProductDetail = () => {
       .then((data) => {
         setProductDetail(data)
         setproductTag(data.tag_list)
+        setloading(false)
 
         // setproductTag() // Update state with product details
       })
@@ -231,7 +234,10 @@ const ProductDetail = () => {
     console.log(error)
     })
    }
-  console.log(wishlist,"truuuuu")
+  // console.log(wishlist,"truuuuu")
+  
+    if (loading) return <Loader></Loader>
+
   return (
 
 
