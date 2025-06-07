@@ -9,7 +9,7 @@ const Allproducts = () => {
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState()
   useEffect(()=>{
-     fetchData(`${live}api/+'products/`);
+fetchData(`${live}api/products/`);
   },[])
 
   function fetchData(baseurl){
@@ -28,10 +28,13 @@ const Allproducts = () => {
   }
   
   var links =[]
-  for (let i=1;i<totalResult;i++){
-    links.push(<li className='border-black border p-3 mb-5 bg-teal-300'><Link onClick={()=>changeUrl(baseUrl+`products/?limit=1&offset=${i}`)} >{i}</Link></li>
-    )
-  }
+  for (let i = 1; i <= totalResult; i++) {
+  links.push(
+    <li key={i} className='border-black border p-3 mb-5 bg-teal-300'>
+      <Link onClick={() => changeUrl(`${baseUrl}products/?limit=1&offset=${i - 1}`)}>{i}</Link>
+    </li>
+  );
+}
 
   return (
     <div>
