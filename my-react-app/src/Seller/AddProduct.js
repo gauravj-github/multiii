@@ -3,7 +3,7 @@ import SellerSlidbar from './SellerSlidbar';
 import axios from 'axios';
 
 const vender_id = localStorage.getItem('vender_id');
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
 const AddProduct = () => {
   // console.log(vender_id,"j")
   const [category, setCategory] = useState([]);

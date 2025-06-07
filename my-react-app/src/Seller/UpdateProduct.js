@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SellerSlidbar from "./SellerSlidbar";
 import { useParams, useHistory } from "react-router-dom";
 import axios from 'axios';
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
 
 const UpdateProduct = () => {
   const { id } = useParams();

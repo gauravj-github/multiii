@@ -4,7 +4,7 @@ import Slidbar from './Slidbar';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 
 const customer_id = localStorage.getItem("user_id");

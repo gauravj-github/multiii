@@ -2,7 +2,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min"
 import SellerSlidbar from "./SellerSlidbar"
 import axios from "axios"
 import { useState,useEffect } from "react"
-
+import { live } from '../config';
 const SellerCustomer = () => {
   const [vendororder,setvendororder]=useState([])
 

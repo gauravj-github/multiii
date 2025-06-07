@@ -2,7 +2,8 @@ import React, { useState ,useEffect} from 'react'
 import axios from 'axios'
 import SellerSlidbar from "./SellerSlidbar"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
+
 const Dashboard = () => {
   const vendor_id = localStorage.getItem('vender_id')
   const [product , setproductcount ]=useState()

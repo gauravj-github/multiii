@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'; // for navigation after successful login
 import axios from 'axios';
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
+
 const SellerLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

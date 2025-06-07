@@ -3,7 +3,8 @@ import { useContext,useState} from 'react';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
+
 export const Orderconfirm = () => {
   const userContext = useContext(UserContext); // Correct use of useContext
   const { cartData, setCartData } = useContext(CartContext)

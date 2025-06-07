@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Singleproduct from "./Singleproduct";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);

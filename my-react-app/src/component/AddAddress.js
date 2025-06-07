@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 const customer_id = localStorage.getItem('user_id')
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 const AddAddress = () => {
   const [address,setaddress]=useState('')
   const[success,setsuccess]=useState()

@@ -3,7 +3,8 @@ import SellerSlidbar from "./SellerSlidbar"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
 const vendor_id = localStorage.getItem("vender_id")
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
+
 const SellerProduct = () => {
   const[product,setproduct]=useState([])
   useEffect(() => {

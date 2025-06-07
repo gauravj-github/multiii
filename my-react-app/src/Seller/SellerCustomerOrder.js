@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import SellerSlidbar from "./SellerSlidbar"
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
 
 const SellerCustomerOrder = () => {
    const {id} =useParams()

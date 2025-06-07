@@ -2,7 +2,7 @@ import {React,useState} from 'react'
 import { Link, } from 'react-router-dom/cjs/react-router-dom.min'
 import { CartContext,CurrencyContext} from '../congtext/context'
 import { useContext } from 'react'
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 const Checkout = () => {
     const _currency = localStorage.getItem("currency")

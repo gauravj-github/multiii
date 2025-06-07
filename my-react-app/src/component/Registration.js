@@ -1,7 +1,7 @@
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import React, { useState } from "react";
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 const Registration = () => {
   const [formError, setformError] = useState(false)

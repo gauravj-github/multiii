@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 const Updateaddress = () => {
     const {id} =useParams();

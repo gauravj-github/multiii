@@ -4,7 +4,7 @@ import axios from 'axios'
 import { CurrencyContext} from '../congtext/context'
 import { useContext } from 'react'
 const user_id=localStorage.getItem('user_id')
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 const Wishlist = () => {
     const [wishlistData ,setwishlistData]=useState()

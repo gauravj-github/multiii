@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 const Category = () => {
   const baseUrl =  `${live}api/caterories/`
 

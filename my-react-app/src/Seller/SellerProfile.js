@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import SellerSlidbar from "./SellerSlidbar"
 import axios from "axios";
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config';
+
 const Profile = () => {
   const [userid, setuserid] = useState("");
   const [first_name, setFirstname] = useState("");

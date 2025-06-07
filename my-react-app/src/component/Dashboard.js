@@ -2,7 +2,7 @@ import React, { useState ,useEffect} from 'react'
 import Slidbar from './Slidbar'
 import axios from 'axios'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
-const live = "https://multivendor.pythonanywhere.com/"
+import { live } from '../config'
 
 const Dashboard = () => {
   const customer_id = localStorage.getItem('user_id')
