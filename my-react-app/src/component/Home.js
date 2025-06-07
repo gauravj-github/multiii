@@ -5,11 +5,13 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Singleproduct from "./Singleproduct";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { live } from '../config'
+import Loader from "./Loader";
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState()
+  const [loading, setLoading] = useState(true);
 
     
       const baseUrl =`${live}api/`
@@ -21,6 +23,7 @@ fetchData(`${baseUrl}latestproduct/?fetch_limit=3`);
       fetch(baseurl)
         .then((response) => response.json())  // Invoke json() method
         .then((data) => {setProducts(data.results) 
+          setLoading(false)
           
         // setTotalResults(data.count)
 } ) // Log the data
@@ -43,6 +46,7 @@ const prevSlide = () => {
 };
 
   
+if (loading =="true") return <Loader></Loader>
 
   return (
     <>

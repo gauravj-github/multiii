@@ -3,11 +3,13 @@ import Singleproduct from './Singleproduct'
 import { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { live } from '../config'
-
+import Loader from './Loader'
 const Allproducts = () => {
   
     const [products , setProducts] =useState([])
     const [totalResult , setTotalResults] =useState()
+    const [loading, setLoading] = useState(true);
+    
   useEffect(()=>{
 fetchData(`${live}api/products/`);
   },[])
@@ -16,6 +18,7 @@ fetchData(`${live}api/products/`);
   fetch(baseurl)
     .then((response) => response.json())  // Invoke json() method
     .then((data) => {setProducts(data.results) 
+      setLoading(false)
     setTotalResults(data.count)} ) // Log the data
     .catch((error) => console.error('Error:', error));  // Handle any errors
   }
@@ -35,6 +38,8 @@ fetchData(`${live}api/products/`);
     </li>
   );
 }
+
+if(loading) return <Loader></Loader>
 
   return (
     <div>

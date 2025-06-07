@@ -41,20 +41,43 @@ import TagProducts from "./component/TagProducts";
 import { CartContext,CurrencyContext} from "./congtext/context";
 import Updateaddress from "./component/Updateaddress";
 import SellerLogout from "./Seller/SellerLogout";
+import { useEffect } from "react";
+import Loader from "./component/Loader";
+
 const checkCart = localStorage.getItem("cartData")
 const currencycurrency =localStorage.getItem("currency")
 function App() {
   const [cartData ,setCartData] =useState(JSON.parse(checkCart))
   const [CurrencyData ,setCurrencyData] =useState(currencycurrency)
+ const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Simulate global data loading
+    const timer = setTimeout(() => setLoading(false), 1000); 
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
+  
+  
   return (
     <>
             <CurrencyContext.Provider value={{CurrencyData,setCurrencyData}}>
 
         <CartContext.Provider value={{cartData,setCartData}}>
-
+          
       <Header />
+
+      
+
       <Switch>
+        
         <Route exact path="/" component={Allproducts} />
         <Route path="/Allproduct" component={Allproducts} />
         <Route path="/categories" component={Category} />
@@ -77,9 +100,6 @@ function App() {
         <Route path="/relatedcategories/product" component={Relatedproduct}></Route>
         <Route path="/customer/logout" component={Logout}></Route>
 
-
-
-        {/* selleer */}
         <Route path="/seller/registration" component={SellerRegistration}></Route>
         <Route path="/seller/login" component={SellerLogin}></Route>
         <Route path="/seller/logout" component={SellerLogout}/>
@@ -94,6 +114,7 @@ function App() {
         <Route path="/seller/Changepassword" component={SellerChangepassword}></Route>
 
         <Route path="/customerorder/:id" component={SellerCustomerOrder}></Route>
+      
         </Switch>
       </CartContext.Provider >
       </CurrencyContext.Provider >

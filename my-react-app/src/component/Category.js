@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { live } from '../config'
+import Loader from './Loader';
 
 const Category = () => {
   const baseUrl =  `${live}api/caterories/`
@@ -10,6 +11,7 @@ const Category = () => {
   const [totalResult, setTotalResults] = useState()
 
   const [category, setCategory] = useState([])
+  const [loaging , setloaging]=useState(true)
   useEffect(() => {
     caregories(baseUrl);
   }, [])
@@ -17,7 +19,8 @@ const Category = () => {
   function caregories(baseUrl) {
     fetch(baseUrl)
       .then((response) => response.json())  // Invoke json() method
-      .then((data) => (setCategory(data.results), setTotalResults(data.count))) // Log the data
+      .then((data) => (setCategory(data.results), setTotalResults(data.count)
+    ,setloaging(false))) // Log the data
       .catch((error) => console.error('Error:', error));  // Handle any errors
   }
 
@@ -32,7 +35,7 @@ const Category = () => {
     links.push(<Link className="border-black border p-3 mb-5 bg-teal-300" onClick={() => changeUrl(baseUrl + `?page=${i}`)} >{i}</Link>
     )
   }
-
+if (loaging) return <Loader></Loader>
   return (
     <div>
 
