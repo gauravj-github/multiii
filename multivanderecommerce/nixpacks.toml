@@ -1,16 +1,19 @@
 [phases.setup]
-packages = ["python310", "python310Packages.pip"]
+packages = ["python310", "python310Packages.pip", "nodejs", "npm"]
 
 [phases.install]
 commands = [
   "python3 -m pip install --upgrade pip",
-  "pip install -r requirements.txt"
+  "pip install -r backend/requirements.txt",
+  "npm install --prefix frontend"
 ]
 
 [phases.build]
-commands = []
+commands = [
+  "npm run build --prefix frontend"
+]
 
 [phases.start]
 commands = [
-  "gunicorn multivanderecommerce.wsgi:application"
+  "gunicorn backend.multivanderecommerce.wsgi:application --bind 0.0.0.0:$PORT"
 ]
