@@ -31,7 +31,7 @@ fetchData(`${live}api/products/`);
   for (let i = 1; i <= totalResult; i++) {
   links.push(
     <li key={i} className='border-black border p-3 mb-5 bg-teal-300'>
-      <Link onClick={() => changeUrl(`${baseUrl}products/?limit=1&offset=${i - 1}`)}>{i}</Link>
+      <Link onClick={() => changeUrl(`${live}products/?limit=1&offset=${i - 1}`)}>{i}</Link>
     </li>
   );
 }
