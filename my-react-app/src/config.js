@@ -1,1 +1,1 @@
-export const live = "https://multivendor.pythonanywhere.com/";
+export const live = "http://127.0.0.1:8000/";
