@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a+1f#&7@3#d2s=*!jdeeqj$1@i(&a-j@v5nk+%em-qln413@g%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['54.86.200.216', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -123,7 +123,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -150,15 +151,16 @@ REST_FRAMEWORK = {
 }
  
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # Add your frontend's origin
+    'http://localhost:3000',
     "https://localhost:3000.onrender.com",
-
+    "http://54.86.200.216:3000"
 ]
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+#ORS_ALLOW_ALL_ORIGINS = True
+#CORS_ALLOW_CREDENTIALS = True
 
 DEBUG = True
 # settings.py
 
  
 # Media settings
+
