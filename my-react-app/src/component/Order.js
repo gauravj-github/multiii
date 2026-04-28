@@ -10,8 +10,7 @@ import { live } from '../config'
 const customer_id = localStorage.getItem("user_id");
 const baseurl = "https://multivendor.pythonanywhere.com/"
 const Order = () => {
-  const [orderData, setOrderData] = useState([]); // ✅ Initialize as an empty array
-  const [down , showDownload] = useState([])
+  const [orderData, setOrderData] = useState([]);
 
   useEffect(() => {
     axios.get(`${live}api/customer-all-order/${customer_id}`) 

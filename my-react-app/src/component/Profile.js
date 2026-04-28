@@ -17,11 +17,7 @@ const Profile = () => {
 
   const user_id = localStorage.getItem("user_id");
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  function fetchData() {
+  const fetchData = () => {
     axios
       .get(`${live}api/customer/${user_id}`)
       .then(function (response) {
@@ -37,6 +33,11 @@ const Profile = () => {
         console.log(error);
       });
   }
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user_id]);
 
   // Handle file input change for profile image
   const handleFileChange = (e) => {

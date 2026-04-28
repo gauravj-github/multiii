@@ -14,29 +14,25 @@ const user_id = localStorage.getItem('user_id')
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const {cartData,setCartData} =useContext(CartContext)
+  const { setCartData } = useContext(CartContext)
   const images = [
     "https://via.placeholder.com/600?text=Image+1",
     "https://via.placeholder.com/600?text=Image+2",
     "https://via.placeholder.com/600?text=Image+3",
   ];
-  const userContext = useContext(UserContext); // Correct use of useContext
+  const userContext = useContext(UserContext);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productDet, setProductDetail] = useState([]);
-  const [productTag ,setproductTag] =useState([]) 
-   const [relatedProduct ,setrelatedProduct] =useState([])
-  const [addtocart , setaddtocart ] = useState(false)  
-  const [ wishlist,setWishlist] =useState() 
-  const[loading,setloading] =useState(true)
+  const [productTag, setproductTag] = useState([])
+  const [relatedProduct, setrelatedProduct] = useState([])
+  const [addtocart, setaddtocart] = useState(false)
+  const [wishlist, setWishlist] = useState()
+  const [loading, setloading] = useState(true)
 
-  const _currency =localStorage.getItem("currency")
-  // console.log(_currency,"kvjb")
-  // var Getcurrency = localStorage.getItem("currency")
+  const _currency = localStorage.getItem("currency")
 
-  // const [para ,setpara] =useState(false)
-
-  const history =useHistory()
+  const history = useHistory()
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
@@ -45,34 +41,21 @@ const ProductDetail = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
-  useEffect(() => {
-    if (id) {
-      productDetailIdwise(id);
-    }
-    fetchRelatedProduct()
-    chechProductInCart(id)
-    chechProductInWishlist()
-
-  }, [id]);
-
   const productDetailIdwise = (productId) => {
     fetch(`${live}api/product/${productId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json(); // Parse JSON response
+        return response.json();
       })
       .then((data) => {
         setProductDetail(data)
         setproductTag(data.tag_list)
         setloading(false)
-
-        // setproductTag() // Update state with product details
       })
       .catch((error) => console.error("Error fetching product details:", error));
   };
- 
 
   const fetchRelatedProduct = () => {
     fetch(`${live}api/related-product/${id}`)
@@ -80,160 +63,130 @@ const ProductDetail = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json(); // Parse JSON response
+        return response.json();
       })
       .then((data) => {
         setrelatedProduct(data.results)
-        // setproductTag() // Update state with product details
         console.log(data.results)
       })
       .catch((error) => console.error("Error fetching product details:", error));
   };
-// console.log(relatedProduct)
-  const tagesLinks=[]
-  for (let i=0 ; i<productTag.length ; i++){
-    let tag =productTag[i].trim()
-    tagesLinks.push(<Link  to={`/products/${tag}`}> <span className="mr-4  text-xl p-1 border border-emerald-400  bg-gray-600 shadow-xl text-white rounded-xl hover:text-green-400 hover:shadow-2xl">{tag}</span></Link>)
 
-    
+  const chechProductInCart = (productId) => {
+    const previouscart = localStorage.getItem("cartData")
+    const cartjson = JSON.parse(previouscart)
+
+    if (cartjson !== null) {
+      cartjson.forEach((cart) => {
+        if (cart !== null && cart.produc.id === productId) {
+          setaddtocart(true)
+        }
+      })
+    }
+  };
+
+  const chechProductInWishlist = () => {
+    const formData = new FormData();
+    formData.append("customer", user_id)
+    formData.append("product", id)
+
+    axios.post(`${live}api/check-in-wishlist/`, formData)
+      .then(function (response) {
+        console.log(response.data.bool)
+        if (response.data.bool === true) {
+          setWishlist(true)
+        }
+        else {
+          setWishlist(false)
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  };
+
+  useEffect(() => {
+    if (id) {
+      productDetailIdwise(id);
+      fetchRelatedProduct()
+      chechProductInCart(id)
+      chechProductInWishlist()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const tagesLinks = []
+  for (let i = 0; i < productTag.length; i++) {
+    let tag = productTag[i].trim()
+    tagesLinks.push(<Link key={i} to={`/products/${tag}`}><span className="mr-4 text-xl p-1 border border-emerald-400 bg-gray-600 shadow-xl text-white rounded-xl hover:text-green-400 hover:shadow-2xl">{tag}</span></Link>)
   }
-  function chechProductInCart(id){
-    var previouscart = localStorage.getItem("cartData")
-    // console.log(previouscart,"kuugkbhb")
-    var cartjson = JSON.parse(previouscart)
-            // console.log(cartjson,"khukuugkbhb")
 
-
-    if(cartjson!=null){
-    cartjson.map((cart ,index)=>{
-      console.log(cart.produc.id,"kuugkbhb")
-      console.log(id, "kjvb")
-      if(cart!=null && cart.produc.id == id ){
-        setaddtocart(true)
-      }
-
-    })
-  }
-  }
-
-  //       if(userContext.login == null){
-  //     history.push('/user/login')
-  
-  //   }
-  //  else{
-  //   // addtoCart()
-  //    }
-
-  const addtoCart=()=>{
- 
-
-    const cartData ={
-      "produc":{
-        "id":productDet.id,
-        "title":productDet.title,
-        "image":productDet.image,
+  const addtoCart = () => {
+    const cartData = {
+      "produc": {
+        "id": productDet.id,
+        "title": productDet.title,
+        "image": productDet.image,
         "price": productDet.price,
-        "usd_price":productDet.uds_price
+        "usd_price": productDet.uds_price
       },
-      "user":{
-    "id":1
+      "user": {
+        "id": 1
       }
     }
-//  console.log(productDet,"djnlz" )
-    // const data= JSON.stringify(cartData)
-    // localStorage.setItem("cartData",data)
 
- 
     let previouscart = localStorage.getItem("cartData")
     let CartJson = JSON.parse(previouscart)
     console.log(CartJson)
-    if (CartJson!=null){
+    if (CartJson !== null) {
       CartJson.push(cartData)
-      var cartstring = JSON.stringify(CartJson)
-      localStorage.setItem("cartData",cartstring)
+      const cartstring = JSON.stringify(CartJson)
+      localStorage.setItem("cartData", cartstring)
       setCartData(CartJson)
     }
-    else{
-      var newCartList =[]
+    else {
+      const newCartList = []
       newCartList.push(cartData)
-      var cartstring =JSON.stringify(newCartList)
-      localStorage.setItem("cartData",cartstring)
-
+      const cartstring = JSON.stringify(newCartList)
+      localStorage.setItem("cartData", cartstring)
     }
     setaddtocart(true)
-
-
   }
 
-  const removetoCart=()=>{
-    var previouscart = localStorage.getItem("cartData")
-    var CartJson = JSON.parse(previouscart)
-    // console.log(cartjson,"kdjczbnk")
-    CartJson.map((cart ,index)=>{
-      if(cart!=null && cart.produc.id == productDet.id){
-        // delete cartjson[index]}     
-        CartJson.splice(index,1)
-
-
-    }})
-    var cartstring = JSON.stringify(CartJson)
-    localStorage.setItem("cartData",cartstring)
-    
+  const removetoCart = () => {
+    const previouscart = localStorage.getItem("cartData")
+    const CartJson = JSON.parse(previouscart)
+    CartJson.forEach((cart, index) => {
+      if (cart !== null && cart.produc.id === productDet.id) {
+        CartJson.splice(index, 1)
+      }
+    })
+    const cartstring = JSON.stringify(CartJson)
+    localStorage.setItem("cartData", cartstring)
 
     setaddtocart(false)
     setCartData(CartJson)
+  }
 
-    
-
-    }
-    // console.log(cartData)
-
-  // console.log(user_id,"ldjvb")
-
-  //Wishlist 
-  function saveInWishlist(){
-    if(userContext == null){
+  const saveInWishlist = () => {
+    if (userContext === null) {
       history.push('/user/login')
       alert("pleas login first")
     }
-   else{
-    const formData =new FormData();
-    formData.append("customer",user_id)
-    formData.append("product",id)
-    axios.post(`${live}api/Wishlist/`,formData)
-    .then(function(response){
-      console.log(response.data)
-      window.location.reload()
-
-    })
-    .catch(function(error){
-    console.log(error)
-    })
-   }
+    else {
+      const formData = new FormData();
+      formData.append("customer", user_id)
+      formData.append("product", id)
+      axios.post(`${live}api/Wishlist/`, formData)
+        .then(function (response) {
+          console.log(response.data)
+          window.location.reload()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   }
-  //checjing product is already in wishlist
-  function chechProductInWishlist(){
-    const formData =new FormData();
-    formData.append("customer",user_id)
-    formData.append("product",id)
-    const p= id
-       console.log(user_id,p,"kg")
-
-
-    axios.post(`${live}api/check-in-wishlist/`,formData)
-    .then(function(response){
-      console.log(response.data.bool)
-      if (response.data.bool==true){
-        setWishlist(true)
-      }
-      else{
-        setWishlist(false)
-      }
-    })
-    .catch(function(error){
-    console.log(error)
-    })
-   }
   // console.log(wishlist,"truuuuu")
   
     if (loading) return <Loader></Loader>
@@ -254,7 +207,7 @@ const ProductDetail = () => {
     {productDet.product_imgs && productDet.product_imgs.length > 0 ? (
       <img
         src={productDet.product_imgs[currentIndex]?.image}
-        alt={`Product Image ${currentIndex + 1}`}
+        alt="Product"
         className="rounded-lg w-96 h-full object-cover"
       />
     ) : (
@@ -300,12 +253,10 @@ const ProductDetail = () => {
 
           {/* Price */}
           {
-            _currency != "usd" &&    <p className="text-2xl font-bold text-gray-900 mt-4">₹{productDet.price}           </p>
-
+            _currency !== "usd" && <p className="text-2xl font-bold text-gray-900 mt-4">₹{productDet.price}</p>
           }
-           {
-            _currency == "usd" &&   <p className="text-2xl font-bold text-gray-900 mt-4">${productDet.uds_price}           </p>
-
+          {
+            _currency === "usd" && <p className="text-2xl font-bold text-gray-900 mt-4">${productDet.uds_price}</p>
           }
 
           {/* Description */}
@@ -327,31 +278,26 @@ const ProductDetail = () => {
       </button>
     </button>}
          
-    <button className="mt-6 flex items-center justify-center gap-2 bg-green-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-green-700  transition   hover:border-x-2 hover:border-y-2 hover:border-black">
+    <button className="mt-6 flex items-center justify-center gap-2 bg-green-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-green-700 transition hover:border-x-2 hover:border-y-2 hover:border-black">
         <MdAttachMoney className="text-xl" />
-        <Link target="_blank" to="#">
-          Buy Now
-        </Link>
+        Buy Now
       </button>
 
       {/* Wishlist Button */}
-      {wishlist == false && <button onClick={saveInWishlist} className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition   hover:border-x-2 hover:border-y-2 hover:border-black">
+      {wishlist === false && <button onClick={saveInWishlist} className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition hover:border-x-2 hover:border-y-2 hover:border-black">
         <FaHeart className="text-xl" />
-          Wishlist
-      </button> }
-      {wishlist ==true && <button onClick={saveInWishlist} className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition   hover:border-x-2 hover:border-y-2 hover:border-black">
+        Wishlist
+      </button>}
+      {wishlist === true && <button onClick={saveInWishlist} className="mt-6 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 px-4 rounded-lg text-lg hover:bg-pink-700 transition hover:border-x-2 hover:border-y-2 hover:border-black">
         <FaHeart className="text-3xl text-red-950" />
-         
-      </button> }
+      </button>}
   
      
 
-      <button className="mt-6 flex items-center justify-center gap-2 bg-black text-white py-3 px-4 rounded-lg text-lg hover:bg-gray-600 hover:border-x-2 hover:border-y-2 hover:border-black transition">
-      <FaShoppingCart className="text-xl" /> {/* Cart Icon */}
-      <a href={productDet.demo_url}>
+      <a href={productDet.demo_url} className="mt-6 flex items-center justify-center gap-2 bg-black py-3 px-4 rounded-lg text-lg hover:bg-gray-600 hover:border-x-2 hover:border-y-2 hover:border-black transition" style={{color: 'white', textDecoration: 'none'}}>
+        <FaShoppingCart className="text-xl" />
         Demo
       </a>
-    </button>
       </div>
 
 
@@ -377,7 +323,7 @@ const ProductDetail = () => {
      
      
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-4 m-4 mr-10 ml-10">
-      {relatedProduct.map((product)=>(<Singleproduct product={product}></Singleproduct>))}
+      {relatedProduct.map((product) => (<Singleproduct key={product.id} product={product}></Singleproduct>))}
 
       </main>
       </>

@@ -1,11 +1,9 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import React, { useState } from "react";
 import { live } from '../config'
 
 const Registration = () => {
-  const [formError, setformError] = useState(false)
-   const [errormsg, seterrormsg] = useState('')
+  const [errormsg, seterrormsg] = useState('')
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -15,71 +13,33 @@ const Registration = () => {
     mobile:''
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors] = useState({})
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const validate = () => {
-    const newErrors = {};
-    
-
-    // if((!email)&&(!username)&&(!password)&&(!first_name)&&(!last_name)&&(!mobile)){
-    //   newErrors.all ="fill all fields"
-    // }
-   if (!formData.email) {
-      newErrors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid.";
-    }
-
-    if (!formData.username) {
-      newErrors.username = "Username is required.";
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Password is required.";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${live}api/customer/registration`,formData)
-    .then((response) => {
-      if(response.data.bool == false){
-        setFormData ({
-          email: "",
-          username: "",
-          password: "",
-          first_name:"",
-          last_name:'',
-          mobile:''
-        });
-      console.log(seterrormsg(response.data.msg)    )
-     setformError(true)
-     seterrormsg(response.data.msg)
-      }
-   
-    else {
-     
-      setformError(false)
-      seterrormsg(response.data.msg)  
-      console.log(seterrormsg(response.data.msg)    )
-      console.log(localStorage.getItem('username'))
-    }
-  }
-  )
+    axios.post(`${live}api/customer/registration`, formData)
+      .then((response) => {
+        if (response.data.bool === false) {
+          setFormData({
+            email: "",
+            username: "",
+            password: "",
+            first_name: "",
+            last_name: '',
+            mobile: ''
+          });
+          seterrormsg(response.data.msg)
+        }
+        else {
+          seterrormsg(response.data.msg)
+          console.log(localStorage.getItem('username'))
+        }
+      })
   
   };
  

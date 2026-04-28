@@ -1,31 +1,24 @@
-import { UserContext,CartContext} from '../congtext/context'
-import { useContext,useState} from 'react';
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { UserContext, CartContext } from '../congtext/context'
+import { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { live } from '../config'
 
 export const Orderconfirm = () => {
-  const userContext = useContext(UserContext); // Correct use of useContext
-  const { cartData, setCartData } = useContext(CartContext)
-  const [pay ,setpay]=useState('')
-  const [orderstatus , setorderstatus] = ('false')
-  const[orderid,setorder] = useState()
-  const initialOptions = {
-    "client-id": "AfjYKK610LSY8hFOnfXul2ejhBUJKo4fzbKPk2IpV8TrMbaE-qEWJJ0KgGPEN4MMdsDATndaiahWIEJi",
-    currency: "USD",
-    intent: "capture",
-  };
+  const userContext = useContext(UserContext);
+  const { setCartData } = useContext(CartContext)
+  const [pay, setpay] = useState('')
+  const [orderid, setorder] = useState()
   const history = useHistory()
-  console.log(userContext,'kjhvk')  
- 
-  if(userContext == null){
-    history.push('/user/login')
+  console.log(userContext, 'kjhvk')
 
+  if (userContext === null) {
+    history.push('/user/login')
   }
- else{
+  else {
     addorderIntable()
- }
+  }
 function addorderIntable(){
 const customer_id  = localStorage.getItem('user_id',)
 console.log(customer_id)
@@ -45,33 +38,29 @@ axios.post(`${live}api/orders/?customer_id=${customer_id}`)
 console.log(error)
 })
 }
-function orderItem(order_id){
-  const customer_id  = localStorage.getItem('cartData')
+function orderItem(order_id) {
+  const customer_id = localStorage.getItem('cartData')
   const cartjson = JSON.parse(customer_id)
   console.log(cartjson)
-  if (cartjson !=null){
-    cartjson.map((cart,index)=>{
-      console.log()
+  if (cartjson !== null) {
+    cartjson.forEach((cart, index) => {
       const formData = new FormData()
-      formData.append('order',order_id)
-      formData.append('product',cart.produc.id)
-      formData.append('qty',1)
-      formData.append('price',cart.produc.price)
+      formData.append('order', order_id)
+      formData.append('product', cart.produc.id)
+      formData.append('qty', 1)
+      formData.append('price', cart.produc.price)
 
-      axios.post(`${live}api/orderItem/`,formData)
-      .then(function(response){
-        console.log(response.data)
-        cartjson.splice(index ,1)
-        localStorage.setItem('cartData',JSON.stringify(cartjson))
-        setCartData(cartjson)
-      
-      })
-      .catch(function(error){
-      console.log(error)
-      })
-  } 
- 
-)
+      axios.post(`${live}api/orderItem/`, formData)
+        .then(function (response) {
+          console.log(response.data)
+          cartjson.splice(index, 1)
+          localStorage.setItem('cartData', JSON.stringify(cartjson))
+          setCartData(cartjson)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    })
  
 }
 // const updateddata  = localStorage.getItem('cartData')
@@ -83,11 +72,6 @@ function orderItem(order_id){
 
 }
 
-const paymentDone=()=>{
-if (pay == ""){
-  alert("select any payment mode please")
-}
-}
 function updateOrderStatus(orderstatus){
   console.log(orderid,orderstatus)
   axios.post(`${live}api/update-order-status/${orderid}`)
@@ -123,7 +107,7 @@ function updateOrderStatus(orderstatus){
        <input type='radio' name='m' className='mr-3'></input>
         <label>Razor pay</label>
        </div>
-       {pay == 'paypal'}
+       {pay === 'paypal'}
        <PayPalScriptProvider options={{"client-id": "AfjYKK610LSY8hFOnfXul2ejhBUJKo4fzbKPk2IpV8TrMbaE-qEWJJ0KgGPEN4MMdsDATndaiahWIEJi"}}>
       <PayPalButtons
         style={{ layout: "vertical" }}

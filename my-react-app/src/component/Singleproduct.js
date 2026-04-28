@@ -1,24 +1,22 @@
 import React from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-const Singleproduct = ({product}) => {
-  const _currency =localStorage.getItem("currency")
+const Singleproduct = ({ product }) => {
+  const _currency = localStorage.getItem("currency")
   return (
     <>
-    <div className="w-72 rounded-full mx-auto sm:max-w-md lg:max-w-lg xl:max-w-xl  mb-10 ">
-    <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition">
-      {/* Product Image */}
-      <Link to={`/product/${product.title}/${product.id}`} >
-      <div className="relative flex justify-center items-center mt-2">
-        <img
-          className="h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-t-lg"
-          src={product.image}
-          alt="Product"
-        />
-      </div>
-      </Link>
+      <div className="w-72 rounded-full mx-auto sm:max-w-md lg:max-w-lg xl:max-w-xl mb-10">
+        <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition">
+          {/* Product Image */}
+          <Link to={`/product/${product.title}/${product.id}`}>
+            <div className="relative flex justify-center items-center mt-2">
+              <img
+                className="h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-t-lg"
+                src={product.image}
+                alt="Product"
+              />
+            </div>
+          </Link>
 
       {/* Product Info */}
       <div className="p-4">
@@ -50,24 +48,17 @@ const Singleproduct = ({product}) => {
           </svg>
         </div>
   
-        {/* Price */}
-        {
-            _currency != "usd" &&    <p className="text-2xl font-bold text-gray-900 mt-4">₹{product.price}           </p>
-
+          {/* Price */}
+          {
+            _currency !== "usd" && <p className="text-2xl font-bold text-gray-900 mt-4">₹{product.price}</p>
           }
-           {
-            _currency == "usd" &&   <p className="text-2xl font-bold text-gray-900 mt-4">${product.uds_price}           </p>
-
-          }        {/* Add to Cart Button */}
-        {/* <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-          Add to Cart
-        </button> */}
+          {
+            _currency === "usd" && <p className="text-2xl font-bold text-gray-900 mt-4">${product.uds_price}</p>
+          }
+        </div>
       </div>
-      
     </div>
-  </div>
-  </> 
-  
+    </>
   )
 }
 

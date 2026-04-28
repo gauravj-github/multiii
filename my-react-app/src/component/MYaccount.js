@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useContext,useState,useEffect} from 'react';
-import { UserContext,CartContext } from '../congtext/context'; 
+import { UserContext } from '../congtext/context'; 
 
 export const MYaccount = () => {
       const userContext = useContext(UserContext); // Correct use of useContext
@@ -45,7 +45,7 @@ export const MYaccount = () => {
                     {isOpen && (
                       <div className="absolute right-0 z-10 mt-2 min-w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                         <div className="py-1">
-                        {userContext != "true" &&
+                        {userContext !== "true" &&
                           <>
                           <Link
                             to="/user/registration"
@@ -53,16 +53,16 @@ export const MYaccount = () => {
                           >
                             Registration
                           </Link>
-                         
+
                           <Link
                             to="/user/login"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           >
                             Login
                           </Link>
-                          </>           
+                          </>
                 }
-                          {userContext == "true" &&
+                          {userContext === "true" &&
                           <>
                           <Link
                             to="/customer/Dashboard"

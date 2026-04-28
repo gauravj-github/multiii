@@ -11,11 +11,8 @@ const Login = () => {
   const [errormsg, seterrormsg] = useState('')
 
 
-  const buttonEnable = (!username != '') && (password != '')
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simple validation
     if (!username || !password) {
       setError('Please enter both username and password');
       return;
@@ -30,7 +27,7 @@ const Login = () => {
     console.log(formData)
     axios.post(`${live}api/customer/login`, formData)
       .then((response) => {
-        if (response.data.bool == false) {
+        if (response.data.bool === false) {
           setformError(true)
           seterrormsg(response.data.msg)
         }
